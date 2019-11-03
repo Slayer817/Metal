@@ -764,7 +764,7 @@ public class AutomaticGunScriptLPFP : MonoBehaviour {
 						}
 					}
 				}
-
+                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				//Spawn bullet from bullet spawnpoint
 				var bullet = (Transform)Instantiate (
 					Prefabs.bulletPrefab,
@@ -779,6 +779,7 @@ public class AutomaticGunScriptLPFP : MonoBehaviour {
 				Instantiate (Prefabs.casingPrefab, 
 					Spawnpoints.casingSpawnPoint.transform.position, 
 					Spawnpoints.casingSpawnPoint.transform.rotation);
+                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			}
 		}
 

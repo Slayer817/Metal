@@ -128,7 +128,7 @@ public class PlayerInventory : MonoBehaviour
                     Debug.Log(hasWeapInInv);
                 }
 
-                if (hasWeapInInv == 2)
+                else if (hasWeapInInv == 2)
                 {
                     pickupNewWeapon();
 
@@ -251,36 +251,39 @@ public class PlayerInventory : MonoBehaviour
 
     }
 
-    
+
 
     public void pickupSecWeap()
     {
-
-        for (int i = 0; i < Unequipped.Length; i++)
+        if (weaponPUTZ.tempGO.gameObject.name != weaponEquiped[0].gameObject.name)
         {
-            if (Unequipped[i] != null)
+            Debug.Log("Cant Pick Up");
+
+            for (int i = 0; i < Unequipped.Length; i++)
             {
-                if (Unequipped[i].gameObject.name == weaponPUTZ.tempGO.gameObject.name)
+                if (Unequipped[i] != null)
                 {
-                    weaponEquiped[1] = Unequipped[i].gameObject;
+                    if (Unequipped[i].gameObject.name == weaponPUTZ.tempGO.gameObject.name)
+                    {
+                        weaponEquiped[1] = Unequipped[i].gameObject;
 
-                    deletedUnCase = i;
+                        deletedUnCase = i;
 
-                    Unequipped[i] = null;
+                        Unequipped[i] = null;
 
 
-                    weaponEquiped[1].gameObject.SetActive(true);
-                    weaponEquiped[0].gameObject.SetActive(false);
+                        weaponEquiped[1].gameObject.SetActive(true);
+                        weaponEquiped[0].gameObject.SetActive(false);
 
-                    cockingSource.clip = cockingClip1;
-                    cockingSource.Play();
+                        cockingSource.clip = cockingClip1;
+                        cockingSource.Play();
 
-                    activeWeapIs = 1;
+                        activeWeapIs = 1;
 
+                    }
                 }
             }
         }
-
         /*foreach (GameObject temp in Unequipped)
         {
 

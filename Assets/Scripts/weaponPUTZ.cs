@@ -29,8 +29,13 @@ public class weaponPUTZ : MonoBehaviour
                 pickupText.text = "Pick up " + other.gameObject.name;
                 tempGO = other.gameObject;
                 
-                
+                if (tempGO.gameObject.name == pInventory.weaponEquiped[0].gameObject.name)
+                {
+                    Debug.Log("Cant Pick Up");
+                }
+
             }
+            
 
         }
         
@@ -48,7 +53,7 @@ public class weaponPUTZ : MonoBehaviour
         if(isOnTrigger == true)
         {
             if(Input.GetKeyDown(pickup))
-                {
+            {
                     
                 
 
@@ -56,9 +61,11 @@ public class weaponPUTZ : MonoBehaviour
 
                 if(pInventory.hasSecWeap == false)
                 {
-                    
-                    pInventory.pickupSecWeap();
-                    pInventory.hasSecWeap = true;
+                    if (tempGO.gameObject.name != pInventory.weaponEquiped[0].gameObject.name)
+                    {                       
+                        pInventory.pickupSecWeap();
+                        pInventory.hasSecWeap = true;
+                    }
                 }
 
                 else
@@ -67,7 +74,7 @@ public class weaponPUTZ : MonoBehaviour
                     pInventory.checkEquipped();
                 }
                 
-                }
+            }
             
         }
     }
