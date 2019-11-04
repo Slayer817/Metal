@@ -121,7 +121,7 @@
     <Compile Include="Assets\RPG Character Animation Pack FREE\SuperCharacterController\SuperCharacterController\DebugDraw.cs" />
     <Compile Include="Assets\RPG Character Animation Pack FREE\SuperCharacterController\SuperCharacterController\Math3d.cs" />
     <Compile Include="Assets\Scripts\AK47_Pickup_Info.cs" />
-    <Compile Include="Assets\Scripts\AutomaticWeaponScript.cs" />
+    <Compile Include="Assets\Scripts\ARScript.cs" />
     <Compile Include="Assets\Scripts\PlayCockingSound.cs" />
     <Compile Include="Assets\Scripts\PlayerInventory.cs" />
     <Compile Include="Assets\Scripts\SwapWeapons.cs" />

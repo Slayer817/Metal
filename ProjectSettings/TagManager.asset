@@ -33,6 +33,8 @@ TagManager:
   - Player_1_CurrentAmmoText
   - Player_1_TotalAmmoText
   - Metal
+  - ZombieAttackTrigger
+  - Dirt
   layers:
   - Default
   - TransparentFX

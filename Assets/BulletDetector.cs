@@ -5,22 +5,31 @@ using UnityEngine;
 public class BulletDetector : MonoBehaviour
 {
 
-    //public float bSpeed = 5;
+    public float bSpeed = 5;
+
+    //public AutomaticWeaponScript ws;
 
     Vector3 prePos;
 
     void Start()
     {
-        prePos = transform.position;    
+
+        //Debug.Log(ws.bulletForce);
+        prePos = transform.position;
+
+        //GetComponent<Rigidbody>().velocity = transform.forward * Time.deltaTime * 20;
+
+        //GetComponent<Rigidbody>().AddForce(transform.forward * 40);
+
     }
     
-    void Update()
+    void FixedUpdate()
     {
         prePos = transform.position;
 
         //Debug.Log(prePos);
 
-        //transform.Translate(0, 0, bSpeed * Time.deltaTime);
+        transform.Translate(Vector3.forward * Time.deltaTime * bSpeed);
 
         RaycastHit[] hits = Physics.RaycastAll(new Ray(prePos, (transform.position - prePos).normalized), (transform.position - prePos).magnitude);
 

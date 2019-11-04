@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AutomaticWeaponScript : MonoBehaviour
+public class ARScript : MonoBehaviour
 {
     //Animator component attached to weapon
     Animator anim;
@@ -306,8 +306,12 @@ public class AutomaticWeaponScript : MonoBehaviour
                     Spawnpoints.bulletSpawnPoint.transform.rotation);
 
                 //Add velocity to the bullet
-                bullet.GetComponent<Rigidbody>().velocity =
-                    bullet.transform.forward * bulletForce;
+
+                //bullet.gameObject.transform.Translate(Vector3.forward * Time.deltaTime * bulletForce);
+
+                BulletDetector detectorScript = bullet.GetComponent<BulletDetector>();
+
+                detectorScript.bSpeed = bulletForce;
 
                 //Spawn casing prefab at spawnpoint
                 Instantiate(Prefabs.casingPrefab,
