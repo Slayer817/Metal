@@ -126,6 +126,7 @@
     <Compile Include="Assets\Scripts\PlayerInventory.cs" />
     <Compile Include="Assets\Scripts\SwapWeapons.cs" />
     <Compile Include="Assets\Scripts\testscript.cs" />
+    <Compile Include="Assets\Scripts\WeaponList.cs" />
     <Compile Include="Assets\Scripts\weaponPUTZ.cs" />
     <None Include="Assets\RPG Character Animation Pack FREE\Elements\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
     <None Include="Assets\RPG Character Animation Pack FREE\Elements\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerInventory : MonoBehaviour
 {
     [Header("Assault Rifles")]
+    public string StartingWeapon = "M4";
     public GameObject[] weaponEquiped = new GameObject[2];
     public GameObject[] Unequipped;
 
@@ -24,15 +25,37 @@ public class PlayerInventory : MonoBehaviour
 
     public int deletedUnCase = 0;
 
+    public GameObject test11111;
+
     
     public void Start()
     {
-        
-        weaponEquiped[0] = GameObject.FindGameObjectWithTag("Player_1_M4");
+        int childCounter = 0;
+
+        foreach (Transform child in transform)
+        {
+            if (child.tag == "Weapon Binder")
+            {
+                foreach (Transform childOFchild in child)
+                {
+                    if (childOFchild.tag == "Weapon")
+                    {
+                        Unequipped[childCounter] = childOFchild.gameObject;
+                        childCounter = childCounter + 1;
+                    }
+
+                }
+            }
+
+
+        }
+
+        //weaponEquiped[0] = GameObject.FindGameObjectWithTag("Player_1_M4");
         //weaponEquiped[1] = GameObject.FindGameObjectWithTag("weaponEquiped 1");
 
         //Assault Rifles
         //Unequipped[0] = GameObject.FindGameObjectWithTag("Player_1_M4");
+        /*
         Unequipped[1] = GameObject.FindGameObjectWithTag("Player_1_AK-47");
         Unequipped[2] = GameObject.FindGameObjectWithTag("Player_1_SCAR");
 
@@ -57,7 +80,8 @@ public class PlayerInventory : MonoBehaviour
         //Shotguns and others
         Unequipped[40] = GameObject.FindGameObjectWithTag("Player_1_Model 1100");
         Unequipped[41] = GameObject.FindGameObjectWithTag("Player_1_GL06");
-        Unequipped[42] = GameObject.FindGameObjectWithTag("Player_1_RPG");
+        Unequipped[42] = GameObject.FindGameObjectWithTag("Player_1_RPG"); 
+        */
 
         cockingSource.clip = cockingClip1;
         cockingSource.Play();
@@ -68,15 +92,17 @@ public class PlayerInventory : MonoBehaviour
             {
                 Unequipped[i].gameObject.SetActive(false);
             }
+
+            if(Unequipped[i].name == StartingWeapon)
+            {
+                Unequipped[i].gameObject.SetActive(true);
+                weaponEquiped[0] = Unequipped[i].gameObject;
+                Unequipped[i] = null;
+            }
         }
+        
 
-        /*foreach (GameObject temp in Unequipped)
-        {
-            
-            temp.SetActive(false);
-        }*/
-
-        Debug.Log(weaponEquiped[0].name);
+        //Debug.Log(weaponEquiped[0].name);
 
         //weaponEquiped[1].gameObject.SetActive(false);
     }
@@ -122,13 +148,13 @@ public class PlayerInventory : MonoBehaviour
         foreach (GameObject temp1 in weaponEquiped)
         {
             
-                if (temp1.gameObject.name != weaponPUTZ.tempGO.gameObject.name)
+                if (temp1.gameObject.name == weaponPUTZ.tempGO.gameObject.name)
                 {
                     hasWeapInInv = hasWeapInInv + 1;
                     Debug.Log(hasWeapInInv);
                 }
 
-                else if (hasWeapInInv == 2)
+                else
                 {
                     pickupNewWeapon();
 
@@ -150,7 +176,7 @@ public class PlayerInventory : MonoBehaviour
 
     public void pickupNewWeapon()
     {
-
+        Debug.Log("pickup new initialised");
                 if (activeWeapIs == 1)
                 {
                     Unequipped[deletedUnCase] = weaponEquiped[1].gameObject;

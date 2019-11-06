@@ -12,6 +12,12 @@ public class ZombieScript : MonoBehaviour
     //public SphereCollider ztpCollider;
     //public BoxCollider zAttackTrigger;
 
+    [Header("Zombie Settings")]
+    public int Health = 100;
+
+    private Collider Head;
+
+
     public Transform target;
 
     public bool ZombieIsInRange = false;
@@ -21,6 +27,7 @@ public class ZombieScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Head = GameObject.FindGameObjectWithTag("Head Hitbox").GetComponent<CapsuleCollider>();
         nma = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
 

@@ -5,7 +5,10 @@ using UnityEngine;
 public class BulletDetector : MonoBehaviour
 {
 
-    public float bSpeed = 5;
+    public float bSpeed;
+    public BulletScript bs;
+
+    public GameObject collision;
 
     //public AutomaticWeaponScript ws;
 
@@ -17,12 +20,8 @@ public class BulletDetector : MonoBehaviour
         //Debug.Log(ws.bulletForce);
         prePos = transform.position;
 
-        //GetComponent<Rigidbody>().velocity = transform.forward * Time.deltaTime * 20;
-
-        //GetComponent<Rigidbody>().AddForce(transform.forward * 40);
-
     }
-    
+
     void FixedUpdate()
     {
         prePos = transform.position;
@@ -33,12 +32,29 @@ public class BulletDetector : MonoBehaviour
 
         RaycastHit[] hits = Physics.RaycastAll(new Ray(prePos, (transform.position - prePos).normalized), (transform.position - prePos).magnitude);
 
-        for(int i = 0; i < hits.Length; i++)
+
+
+        for (int i = 0; i < hits.Length; i++)
         {
             Debug.Log(hits[i].collider.gameObject.name);
+            //collision = hits[i].collider.gameObject;
+
+
+
+            /*
+            //If bullet collides with "Blood" tag
+            if (collision.transform.tag == "Blood")
+            {
+                //Instantiate random impact prefab from array
+                Instantiate(bs.bloodImpactPrefabs[Random.Range
+                    (0, bs.bloodImpactPrefabs.Length)], transform.position,
+                    Quaternion.LookRotation(hits[0].normal));
+                //Destroy bullet object
+                Destroy(gameObject);
+            }
+            */
+            Debug.DrawLine(transform.position, prePos);
+
         }
-
-        Debug.DrawLine(transform.position, prePos);
-
     }
 }

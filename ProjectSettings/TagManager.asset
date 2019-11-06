@@ -35,6 +35,10 @@ TagManager:
   - Metal
   - ZombieAttackTrigger
   - Dirt
+  - Blood
+  - Player 1
+  - Weapon Binder
+  - Weapon
   layers:
   - Default
   - TransparentFX

@@ -22,7 +22,7 @@ public class ARScript : MonoBehaviour
     private string storedWeaponName;
 
 
-    [Header("Weapon Sway")]
+    /*[Header("Weapon Sway")]
     //Enables weapon sway
     [Tooltip("Toggle weapon sway.")]
     public bool weaponSway;
@@ -31,7 +31,7 @@ public class ARScript : MonoBehaviour
     public float maxSwayAmount = 0.06f;
     public float swaySmoothValue = 4.0f;
 
-    private Vector3 initialSwayPosition;
+    private Vector3 initialSwayPosition;*/
 
     //Used for fire rate
     private float lastFired;
@@ -167,8 +167,10 @@ public class ARScript : MonoBehaviour
         //Set total ammo text from total ammo int
         totalAmmoText.text = ammo.ToString();
 
+        /*
         //Weapon sway
         initialSwayPosition = transform.localPosition;
+        */
 
         //Set the shoot sound to audio source
         shootAudioSource.clip = SoundClips.shootSound;
@@ -176,7 +178,7 @@ public class ARScript : MonoBehaviour
 
     private void LateUpdate()
     {
-
+        /*
         //Weapon sway
         if (weaponSway == true)
         {
@@ -193,7 +195,7 @@ public class ARScript : MonoBehaviour
             transform.localPosition = Vector3.Lerp
                 (transform.localPosition, finalSwayPosition +
                     initialSwayPosition, Time.deltaTime * swaySmoothValue);
-        }
+        }*/
     }
 
     private void Update()
