@@ -5,33 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Pickable
-  - Weapon 1
-  - Weapon 2
-  - Weapon 0
-  - Unequipped
-  - Player_1_Glock
-  - Player_1_AK-47
-  - Player_1_M4
   - Player_1_Inventory
-  - Player_1_SCAR
-  - Player_1_Vector
-  - Player_1_GL06
-  - Player_1_USP .45
-  - Player_1_Beretta 92SB
-  - Player_1_M1911
-  - Player_1_Agram 2000
-  - Player_1_Uzi
-  - Player_1_P90
-  - Player_1_MP5
-  - Player_1_RPG
-  - Player_1_Model 1100
-  - Player_1_R700
-  - Player_1_Barrett .50Cal
-  - Player_1_Dragunov
-  - Player_1_P99
-  - Player_1_Camera
-  - Player_1_CurrentAmmoText
-  - Player_1_TotalAmmoText
   - Metal
   - ZombieAttackTrigger
   - Dirt
@@ -39,6 +13,9 @@ TagManager:
   - Player 1
   - Weapon Binder
   - Weapon
+  - Player Camera
+  - Current Ammo Text
+  - Total Ammo Text
   layers:
   - Default
   - TransparentFX

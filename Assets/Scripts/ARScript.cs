@@ -20,6 +20,7 @@ public class ARScript : MonoBehaviour
     [Tooltip("Name of the current weapon, shown in the game UI.")]
     public string weaponName;
     private string storedWeaponName;
+    public int storedWeaponNumber;
 
 
     /*[Header("Weapon Sway")]
@@ -158,9 +159,9 @@ public class ARScript : MonoBehaviour
     private void Start()
     {
 
-        gunCamera = GameObject.FindGameObjectWithTag("Player_1_Camera").GetComponent<Camera>();
-        currentAmmoText = GameObject.FindGameObjectWithTag("Player_1_CurrentAmmoText").GetComponent<Text>();
-        totalAmmoText = GameObject.FindGameObjectWithTag("Player_1_TotalAmmoText").GetComponent<Text>();
+        gunCamera = GameObject.FindGameObjectWithTag("Player Camera").GetComponent<Camera>();
+        currentAmmoText = GameObject.FindGameObjectWithTag("Current Ammo Text").GetComponent<Text>();
+        totalAmmoText = GameObject.FindGameObjectWithTag("Total Ammo Text").GetComponent<Text>();
 
         //Save the weapon name
         storedWeaponName = weaponName;

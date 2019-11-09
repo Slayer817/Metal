@@ -8,8 +8,8 @@ public class weaponPUTZ : MonoBehaviour
     public PlayerInventory pInventory;
     public string weaponName;
     public Text pickupText;
-    public GameObject tempGO;
-    public GameObject tempInv;
+    public GameObject pickupWeap;
+    public int puWeapStoredNumber;
 
     KeyCode pickup = KeyCode.E;
 
@@ -24,16 +24,36 @@ public class weaponPUTZ : MonoBehaviour
         if (isOnTrigger == true)
         {
 
-            if (other.gameObject.tag == "Pickable")
+            if (other.gameObject.tag == "Pickable") //Check if weapon on maps have the Pickable Tag
             {
                 pickupText.text = "Pick up " + other.gameObject.name;
-                tempGO = other.gameObject;
-                
-                if (tempGO.gameObject.name == pInventory.weaponEquiped[0].gameObject.name)
+                pickupWeap = other.gameObject;
+
+                for (int i = 0; i < pInventory.Unequipped.Length; i++)
                 {
-                    Debug.Log("Cant Pick Up");
+                    if(pInventory.Unequipped[i] != null)
+                    {
+                        if(pickupWeap.gameObject.name == pInventory.Unequipped[i].gameObject.name)
+                        {
+                            Debug.Log("Dhomer");
+                        }
+                    }
+                }
+                
+                if (pickupWeap.gameObject.name == pInventory.weaponEquiped[0].gameObject.name)
+                {
+                    Debug.Log("Cant Pick Up 1");
                 }
 
+                else if(pInventory.weaponEquiped[1].gameObject != null)
+                {
+                    if (pickupWeap.gameObject.name == pInventory.weaponEquiped[1].gameObject.name)
+                    {
+                        Debug.Log("Cant Pick Up 2");
+                    }
+                }
+
+                
             }
             
 
@@ -61,7 +81,7 @@ public class weaponPUTZ : MonoBehaviour
 
                 if(pInventory.hasSecWeap == false)
                 {
-                    if (tempGO.gameObject.name != pInventory.weaponEquiped[0].gameObject.name)
+                    if (pickupWeap.gameObject.name != pInventory.weaponEquiped[0].gameObject.name)
                     {                       
                         pInventory.pickupSecWeap();
                         pInventory.hasSecWeap = true;

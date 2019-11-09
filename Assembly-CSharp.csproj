@@ -122,12 +122,16 @@
     <Compile Include="Assets\RPG Character Animation Pack FREE\SuperCharacterController\SuperCharacterController\Math3d.cs" />
     <Compile Include="Assets\Scripts\AK47_Pickup_Info.cs" />
     <Compile Include="Assets\Scripts\ARScript.cs" />
+    <Compile Include="Assets\Scripts\PistolScript.cs" />
     <Compile Include="Assets\Scripts\PlayCockingSound.cs" />
     <Compile Include="Assets\Scripts\PlayerInventory.cs" />
     <Compile Include="Assets\Scripts\SwapWeapons.cs" />
     <Compile Include="Assets\Scripts\testscript.cs" />
     <Compile Include="Assets\Scripts\WeaponList.cs" />
     <Compile Include="Assets\Scripts\weaponPUTZ.cs" />
+    <Compile Include="Assets\SMC Pack 1\Demo\DemoAssets\V_SMC_Camera.cs" />
+    <Compile Include="Assets\SMC Pack 1\Demo\DemoAssets\V_SMC_Handler.cs" />
+    <Compile Include="Assets\SMC Pack 1\Demo\DemoAssets\V_Text.cs" />
     <None Include="Assets\RPG Character Animation Pack FREE\Elements\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
     <None Include="Assets\RPG Character Animation Pack FREE\Elements\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
     <None Include="Assets\RPG Character Animation Pack FREE\Elements\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
