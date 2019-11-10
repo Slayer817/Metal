@@ -16,6 +16,13 @@ TagManager:
   - Player Camera
   - Current Ammo Text
   - Total Ammo Text
+  - Bullet Renderer
+  - Casing Spawn Point
+  - Muzzleflash Light
+  - Muzzleflash Particles
+  - Spark Particles
+  - Bullet Spawn Point
+  - Grenade Spawn Point
   layers:
   - Default
   - TransparentFX

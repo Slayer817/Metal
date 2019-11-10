@@ -8,9 +8,9 @@ public class ARScript : MonoBehaviour
     //Animator component attached to weapon
     Animator anim;
 
-    [Header("Gun Camera")]
+    //[Header("Gun Camera")]
     //Main gun camera
-    public Camera gunCamera;
+    //public Camera gunCamera;
 
     [Header("Gun Camera Options")]
     [Tooltip("Default value for camera field of view (40 is recommended).")]
@@ -152,16 +152,59 @@ public class ARScript : MonoBehaviour
         //Set current ammo to total ammo value
         currentAmmo = ammo;
 
-        muzzleflashLight.enabled = false;
+        //muzzleflashLight.enabled = false;
         
     }
 
     private void Start()
     {
 
-        gunCamera = GameObject.FindGameObjectWithTag("Player Camera").GetComponent<Camera>();
+        /* 
+         * [Header("Prefabs")]
+        public Transform bulletPrefab;
+        public Transform casingPrefab;
+        public Transform grenadePrefab;
+
+         * [Header("Spawnpoints")]
+    //Casing spawn point array
+    public Transform casingSpawnPoint;
+    //Bullet prefab spawn from this point
+    public Transform bulletSpawnPoint;
+
+    public Transform grenadeSpawnPoint;
+}
+public spawnpoints Spawnpoints;
+
+[System.Serializable]
+public class soundClips
+{
+    public AudioClip shootSound;
+    public AudioClip takeOutSound;
+    public AudioClip holsterSound;
+    public AudioClip reloadSoundOutOfAmmo;
+    public AudioClip reloadSoundAmmoLeft;
+}
+public soundClips SoundClips; */
+
+        //gunCamera = GameObject.FindGameObjectWithTag("Player Camera").GetComponent<Camera>();
         currentAmmoText = GameObject.FindGameObjectWithTag("Current Ammo Text").GetComponent<Text>();
         totalAmmoText = GameObject.FindGameObjectWithTag("Total Ammo Text").GetComponent<Text>();
+
+        bulletInMagRenderer = GameObject.FindGameObjectWithTag("Bullet Renderer").GetComponent<SkinnedMeshRenderer>();
+        muzzleParticles = GameObject.FindGameObjectWithTag("Muzzleflash Particles").GetComponent<ParticleSystem>();
+        sparkParticles = GameObject.FindGameObjectWithTag("Spark Particles").GetComponent<ParticleSystem>();
+        muzzleflashLight = GameObject.FindGameObjectWithTag("Muzzleflash Light").GetComponent<Light>();
+
+        muzzleflashLight.enabled = false;
+
+        mainAudioSource = GetComponent<AudioSource>();
+        shootAudioSource = GetComponent<AudioSource>();
+
+        //Prefabs.bulletPrefab = (GameObject)Resources.Load("Bullet_Prefab", typeof(GameObject));
+
+        Spawnpoints.casingSpawnPoint = GameObject.FindGameObjectWithTag("Casing Spawn Point").GetComponent<Transform>();
+        Spawnpoints.bulletSpawnPoint = GameObject.FindGameObjectWithTag("Bullet Spawn Point").GetComponent<Transform>();
+        Spawnpoints.grenadeSpawnPoint = GameObject.FindGameObjectWithTag("Grenade Spawn Point").GetComponent<Transform>();
 
         //Save the weapon name
         storedWeaponName = weaponName;
