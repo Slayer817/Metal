@@ -23,6 +23,12 @@ TagManager:
   - Spark Particles
   - Bullet Spawn Point
   - Grenade Spawn Point
+  - GasTank
+  - Target
+  - ExplosiveBarrel
+  - Collide
+  - Player Inventory
+  - Player Informer
   layers:
   - Default
   - TransparentFX

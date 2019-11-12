@@ -22,6 +22,8 @@ public class ARScript : MonoBehaviour
     private string storedWeaponName;
     public int storedWeaponNumber;
 
+    public string WeaponType;
+
 
     /*[Header("Weapon Sway")]
     //Enables weapon sway

@@ -10,12 +10,17 @@ public class weaponPUTZ : MonoBehaviour
     public Text pickupText;
     public GameObject pickupWeap;
     public int puWeapStoredNumber;
+    
 
     KeyCode pickup = KeyCode.E;
 
     private bool isOnTrigger = false;
 
-    
+    private void Start()
+    {
+        pInventory = GameObject.FindGameObjectWithTag("Player Inventory").GetComponent<PlayerInventory>();
+        pickupText = GameObject.FindGameObjectWithTag("Player Informer").GetComponent<Text>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -39,7 +44,9 @@ public class weaponPUTZ : MonoBehaviour
                         }
                     }
                 }
-                
+
+                Debug.Log("Dhomer 2");
+
                 if (pickupWeap.gameObject.name == pInventory.weaponEquiped[0].gameObject.name)
                 {
                     Debug.Log("Cant Pick Up 1");

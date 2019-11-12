@@ -24,6 +24,8 @@ public class PlayerInventory : MonoBehaviour
     public bool hasSecWeap = false;
 
     public GameObject pickupNewWeapTemp;
+    public int currentWeapInvNumber;
+    public int pickupWeapInvNumber;
 
     public int deletedUnCase = 0;
 
@@ -149,6 +151,7 @@ public class PlayerInventory : MonoBehaviour
         Debug.Log("pickup new initialised");
                 if (activeWeapIs == 1)
                 {
+                    
                     Unequipped[deletedUnCase] = weaponEquiped[1].gameObject;
 
                     for (int i = 0; i < Unequipped.Length; i++)
@@ -158,6 +161,10 @@ public class PlayerInventory : MonoBehaviour
                             if (Unequipped[i].gameObject.name == weaponPUTZ.pickupWeap.gameObject.name)
                             {
                                 Debug.Log("pickup 1 WorksFine");
+
+                                currentWeapInvNumber = weaponEquiped[1].gameObject.GetComponent<ARScript>().storedWeaponNumber;
+
+                                Debug.Log("Current weapon inventory number is " + currentWeapInvNumber);
 
                                 Unequipped[i].gameObject.SetActive(true);
                                 weaponEquiped[1].gameObject.SetActive(false);
@@ -179,6 +186,7 @@ public class PlayerInventory : MonoBehaviour
 
         if (activeWeapIs == 0)
         {
+            Debug.Log("pickup 0 WorksFine 1");
             Unequipped[deletedUnCase] = weaponEquiped[0].gameObject;
 
             for (int i = 0; i < Unequipped.Length; i++)
@@ -235,11 +243,14 @@ public class PlayerInventory : MonoBehaviour
 
                             Unequipped[i] = null;
 
+                        Debug.Log("Sec Weapon 1");
 
-                            weaponEquiped[1].gameObject.SetActive(true);
+                        weaponEquiped[1].gameObject.SetActive(true);
                             weaponEquiped[0].gameObject.SetActive(false);
 
-                            cockingSource.clip = cockingClip1;
+                        Debug.Log("Sec Weapon 2");
+
+                        cockingSource.clip = cockingClip1;
                             cockingSource.Play();
 
                             activeWeapIs = 1;
