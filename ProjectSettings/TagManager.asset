@@ -29,6 +29,8 @@ TagManager:
   - Collide
   - Player Inventory
   - Player Informer
+  - Scope BG
+  - Scope
   layers:
   - Default
   - TransparentFX

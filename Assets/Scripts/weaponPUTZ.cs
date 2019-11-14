@@ -40,12 +40,12 @@ public class weaponPUTZ : MonoBehaviour
                     {
                         if(pickupWeap.gameObject.name == pInventory.Unequipped[i].gameObject.name)
                         {
-                            Debug.Log("Dhomer");
+
                         }
                     }
                 }
 
-                Debug.Log("Dhomer 2");
+
 
                 if (pickupWeap.gameObject.name == pInventory.weaponEquiped[0].gameObject.name)
                 {

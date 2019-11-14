@@ -120,11 +120,15 @@
     <Compile Include="Assets\RPG Character Animation Pack FREE\SuperCharacterController\SuperCharacterController\Core\SuperStateMachine.cs" />
     <Compile Include="Assets\RPG Character Animation Pack FREE\SuperCharacterController\SuperCharacterController\DebugDraw.cs" />
     <Compile Include="Assets\RPG Character Animation Pack FREE\SuperCharacterController\SuperCharacterController\Math3d.cs" />
+    <Compile Include="Assets\Scripts\AimScript.cs" />
     <Compile Include="Assets\Scripts\AK47_Pickup_Info.cs" />
     <Compile Include="Assets\Scripts\ARScript.cs" />
+    <Compile Include="Assets\Scripts\BurstScopesToggler.cs" />
+    <Compile Include="Assets\Scripts\BurstScript.cs" />
     <Compile Include="Assets\Scripts\PistolScript.cs" />
     <Compile Include="Assets\Scripts\PlayCockingSound.cs" />
     <Compile Include="Assets\Scripts\PlayerInventory.cs" />
+    <Compile Include="Assets\Scripts\ScopeScript.cs" />
     <Compile Include="Assets\Scripts\SwapWeapons.cs" />
     <Compile Include="Assets\Scripts\testscript.cs" />
     <Compile Include="Assets\Scripts\WeaponList.cs" />

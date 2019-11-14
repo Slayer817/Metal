@@ -8,14 +8,11 @@ public class PistolScript : MonoBehaviour
     //Animator component attached to weapon
     Animator anim;
 
-    [Header("Gun Camera")]
+    /* [Header("Gun Camera")]
     //Main gun camera
-    public Camera gunCamera;
+    public Camera gunCamera; */
 
     [Header("Gun Camera Options")]
-    //How fast the camera field of view changes when aiming 
-    [Tooltip("How fast the camera field of view changes when aiming.")]
-    public float fovSpeed = 15.0f;
     //Default camera field of view
     [Tooltip("Default value for camera field of view (40 is recommended).")]
     public float defaultFov = 40.0f;
@@ -24,35 +21,40 @@ public class PistolScript : MonoBehaviour
     [Tooltip("Name of the current weapon, shown in the game UI.")]
     public string weaponName;
     private string storedWeaponName;
+    public int storedWeaponNumber;
 
-    [Header("Weapon Attachments (Only use one scope attachment)")]
+    public string WeaponType;
+
+     [Header("Weapon Attachments (Only use one scope attachment)")]
     [Space(10)]
     //Toggle weapon attachments (loads at start)
     //Toggle scope 02
     public bool scope2;
-    public Sprite scope2Texture;
-    public float scope2TextureSize = 0.01f;
+    //public Sprite scope2Texture;
+    //public float scope2TextureSize = 0.01f;
     //Scope 02 camera fov
-    [Range(5, 40)]
-    public float scope2AimFOV = 25;
-    [Space(10)]
+    //[Range(5, 40)]
+    //public float scope2AimFOV = 25;
+    //[Space(10)]
     //Toggle scope 03
     public bool scope3;
-    public Sprite scope3Texture;
-    public float scope3TextureSize = 0.025f;
+    //public Sprite scope3Texture;
+    //public float scope3TextureSize = 0.025f;
     //Scope 03 camera fov
-    [Range(5, 40)]
-    public float scope3AimFOV = 20;
-    [Space(10)]
+    //[Range(5, 40)]
+    //public float scope3AimFOV = 20;
+    //[Space(10)]
     //Toggle iron sights
     public bool ironSights;
     public bool alwaysShowIronSights;
     //Iron sights camera fov
-    [Range(5, 40)]
-    public float ironSightsAimFOV = 16;
-    [Space(10)]
+    //[Range(5, 40)]
+    //public float ironSightsAimFOV = 16;
+    //[Space(10)]
     //Toggle silencer
     public bool silencer;
+
+    /*
     //Weapon attachments components
     [System.Serializable]
     public class weaponAttachmentRenderers
@@ -75,9 +77,9 @@ public class PistolScript : MonoBehaviour
         public SpriteRenderer scope2SpriteRenderer;
         public SpriteRenderer scope3SpriteRenderer;
     }
-    public weaponAttachmentRenderers WeaponAttachmentRenderers;
+    public weaponAttachmentRenderers WeaponAttachmentRenderers; */
 
-    [Header("Weapon Sway")]
+    /* [Header("Weapon Sway")]
     //Enables weapon sway
     [Tooltip("Toggle weapon sway.")]
     public bool weaponSway;
@@ -86,7 +88,7 @@ public class PistolScript : MonoBehaviour
     public float maxSwayAmount = 0.06f;
     public float swaySmoothValue = 4.0f;
 
-    private Vector3 initialSwayPosition;
+    private Vector3 initialSwayPosition; */
 
     [Header("Weapon Settings")]
 
@@ -135,6 +137,10 @@ public class PistolScript : MonoBehaviour
     [Header("Grenade Settings")]
     public float grenadeSpawnDelay = 0.35f;
 
+    /// <summary>
+    /// //////////////////////////////////////////////////////////////////////////
+    /// </summary>
+
     [Header("Muzzleflash Settings")]
     public bool randomMuzzleflash = false;
     //min should always bee 1
@@ -155,6 +161,10 @@ public class PistolScript : MonoBehaviour
     [Header("Muzzleflash Light Settings")]
     public Light muzzleflashLight;
     public float lightDuration = 0.02f;
+
+    /// <summary>
+    /// //////////////////////////////////////////////////////////////////////////
+    /// </summary>
 
     [Header("Audio Source")]
     //Main audio source
@@ -205,7 +215,7 @@ public class PistolScript : MonoBehaviour
     }
     public soundClips SoundClips;
 
-    private bool soundHasPlayed = false;
+    private bool aimSoundHasPlayed = false;
 
     private void Awake()
     {
@@ -214,100 +224,32 @@ public class PistolScript : MonoBehaviour
         //Set current ammo to total ammo value
         currentAmmo = ammo;
 
-        muzzleflashLight.enabled = false;
-
-        //Weapon attachments
-        //If scope 2 is true
-        if (scope2 == true)
-        {
-            //If scope2 is true, enable scope renderer
-            WeaponAttachmentRenderers.scope2Renderer.GetComponent
-            <SkinnedMeshRenderer>().enabled = true;
-            //Also enable the scope sight render mesh
-            WeaponAttachmentRenderers.scope2RenderMesh.SetActive(true);
-            //Set the scope sight texture
-            WeaponAttachmentRenderers.scope2SpriteRenderer.GetComponent
-            <SpriteRenderer>().sprite = scope2Texture;
-            //Set the scope texture size
-            WeaponAttachmentRenderers.scope2SpriteRenderer.transform.localScale = new Vector3
-                (scope2TextureSize, scope2TextureSize, scope2TextureSize);
-        }
-        else
-        {
-            //If scope2 is false, disable scope renderer
-            WeaponAttachmentRenderers.scope2Renderer.GetComponent
-            <SkinnedMeshRenderer>().enabled = false;
-            //Also disable the scope sight render mesh
-            WeaponAttachmentRenderers.scope2RenderMesh.SetActive(false);
-        }
-        //If scope 3 is true
-        if (scope3 == true)
-        {
-            //If scope3 is true, enable scope renderer
-            WeaponAttachmentRenderers.scope3Renderer.GetComponent
-            <SkinnedMeshRenderer>().enabled = true;
-            //Also enable the scope sight render mesh
-            WeaponAttachmentRenderers.scope3RenderMesh.SetActive(true);
-            //Set the scope sight texture
-            WeaponAttachmentRenderers.scope3SpriteRenderer.GetComponent
-            <SpriteRenderer>().sprite = scope3Texture;
-            //Set the scope texture size
-            WeaponAttachmentRenderers.scope3SpriteRenderer.transform.localScale = new Vector3
-                (scope3TextureSize, scope3TextureSize, scope3TextureSize);
-        }
-        else
-        {
-            //If scope3 is false, disable scope renderer
-            WeaponAttachmentRenderers.scope3Renderer.GetComponent
-            <SkinnedMeshRenderer>().enabled = false;
-            //Also disable the scope sight render mesh
-            WeaponAttachmentRenderers.scope3RenderMesh.SetActive(false);
-        }
-
-        //If alwaysShowIronSights is true
-        if (alwaysShowIronSights == true)
-        {
-            WeaponAttachmentRenderers.ironSightsRenderer.GetComponent
-            <SkinnedMeshRenderer>().enabled = true;
-        }
-
-        //If ironSights is true
-        if (ironSights == true)
-        {
-            //If scope1 is true, enable scope renderer
-            WeaponAttachmentRenderers.ironSightsRenderer.GetComponent
-            <SkinnedMeshRenderer>().enabled = true;
-            //If always show iron sights is enabled, don't disable 
-            //Do not use if iron sight renderer is not assigned in inspector
-        }
-        else
-        {
-            //If scope1 is false, disable scope renderer
-            WeaponAttachmentRenderers.ironSightsRenderer.GetComponent
-            <SkinnedMeshRenderer>().enabled = false;
-        }
-        //If silencer is true and assigned in the inspector
-        if (silencer == true &&
-            WeaponAttachmentRenderers.silencerRenderer)
-        {
-            //If scope1 is true, enable scope renderer
-            WeaponAttachmentRenderers.silencerRenderer.GetComponent
-            <SkinnedMeshRenderer>().enabled = true;
-        }
-        else
-        {
-            //If scope1 is false, disable scope renderer
-            WeaponAttachmentRenderers.silencerRenderer.GetComponent
-            <SkinnedMeshRenderer>().enabled = false;
-        }
+        //muzzleflashLight.enabled = false;
+                
     }
 
     public void Start()
     {
 
-        gunCamera = GameObject.FindGameObjectWithTag("Player_1_Camera").GetComponent<Camera>();
-        currentAmmoText = GameObject.FindGameObjectWithTag("Player_1_CurrentAmmoText").GetComponent<Text>();
-        totalAmmoText = GameObject.FindGameObjectWithTag("Player_1_TotalAmmoText").GetComponent<Text>();
+        currentAmmoText = GameObject.FindGameObjectWithTag("Current Ammo Text").GetComponent<Text>();
+        totalAmmoText = GameObject.FindGameObjectWithTag("Total Ammo Text").GetComponent<Text>();
+
+        bulletInMagRenderer = GameObject.FindGameObjectWithTag("Bullet Renderer").GetComponent<SkinnedMeshRenderer>();
+        muzzleParticles = GameObject.FindGameObjectWithTag("Muzzleflash Particles").GetComponent<ParticleSystem>();
+        sparkParticles = GameObject.FindGameObjectWithTag("Spark Particles").GetComponent<ParticleSystem>();
+        muzzleflashLight = GameObject.FindGameObjectWithTag("Muzzleflash Light").GetComponent<Light>();
+
+        muzzleflashLight.enabled = false;
+
+        mainAudioSource = GetComponent<AudioSource>();
+        shootAudioSource = GetComponent<AudioSource>();
+
+        //Prefabs.bulletPrefab = (GameObject)Resources.Load("Bullet_Prefab", typeof(GameObject));
+
+        Spawnpoints.casingSpawnPoint = GameObject.FindGameObjectWithTag("Casing Spawn Point").GetComponent<Transform>();
+        Spawnpoints.bulletSpawnPoint = GameObject.FindGameObjectWithTag("Bullet Spawn Point").GetComponent<Transform>();
+        Spawnpoints.grenadeSpawnPoint = GameObject.FindGameObjectWithTag("Grenade Spawn Point").GetComponent<Transform>();
+
 
         //Save the weapon name
         storedWeaponName = weaponName;
@@ -317,35 +259,14 @@ public class PistolScript : MonoBehaviour
         totalAmmoText.text = ammo.ToString();
 
         //Weapon sway
-        initialSwayPosition = transform.localPosition;
+        //initialSwayPosition = transform.localPosition;
 
         //Set the shoot sound to audio source
         shootAudioSource.clip = SoundClips.shootSound;
 
     }
 
-
-
-    private void LateUpdate()
-    {
-        //Weapon sway
-        if (weaponSway == true)
-        {
-            float movementX = -Input.GetAxis("Mouse X") * swayAmount;
-            float movementY = -Input.GetAxis("Mouse Y") * swayAmount;
-            //Clamp movement to min and max values
-            movementX = Mathf.Clamp
-                (movementX, -maxSwayAmount, maxSwayAmount);
-            movementY = Mathf.Clamp
-                (movementY, -maxSwayAmount, maxSwayAmount);
-            //Lerp local pos
-            Vector3 finalSwayPosition = new Vector3
-                (movementX, movementY, 0);
-            transform.localPosition = Vector3.Lerp
-                (transform.localPosition, finalSwayPosition +
-                initialSwayPosition, Time.deltaTime * swaySmoothValue);
-        }
-    }
+          
 
     private void Update()
     {
@@ -354,100 +275,32 @@ public class PistolScript : MonoBehaviour
         //Toggle camera FOV when right click is held down
         if (Input.GetButton("Fire2") && !isReloading && !isRunning && !isInspecting)
         {
-            if (ironSights == true)
-            {
-                gunCamera.fieldOfView = Mathf.Lerp(gunCamera.fieldOfView,
-                    ironSightsAimFOV, fovSpeed * Time.deltaTime);
-            }
-
-            if (scope2 == true)
-            {
-                gunCamera.fieldOfView = Mathf.Lerp(gunCamera.fieldOfView,
-                    scope2AimFOV, fovSpeed * Time.deltaTime);
-            }
-            if (scope3 == true)
-            {
-                gunCamera.fieldOfView = Mathf.Lerp(gunCamera.fieldOfView,
-                    scope3AimFOV, fovSpeed * Time.deltaTime);
-            }
+            
+        
 
             isAiming = true;
 
-            //If iron sights are enabled, use normal aim
-            if (ironSights == true)
-            {
-                anim.SetBool("Aim", true);
-            }
-            //If scope 2 is enabled, use scope 2 aim in animation
-            if (scope2 == true)
-            {
-                anim.SetBool("Aim Scope 2", true);
-            }
-            //If scope 3 is enabled, use scope 3 aim in animation
-            if (scope3 == true)
-            {
-                anim.SetBool("Aim Scope 3", true);
-            }
+            
 
-            if (!soundHasPlayed)
+            if (!aimSoundHasPlayed)
             {
                 mainAudioSource.clip = SoundClips.aimSound;
                 mainAudioSource.Play();
 
-                soundHasPlayed = true;
+                aimSoundHasPlayed = true;
             }
 
-            //If scope 2 is true, show scope sight texture when aiming
-            if (scope2 == true)
-            {
-                WeaponAttachmentRenderers.scope2SpriteRenderer.GetComponent
-                <SpriteRenderer>().enabled = true;
-            }
-            //If scope 3 is true, show scope sight texture when aiming
-            if (scope3 == true)
-            {
-                WeaponAttachmentRenderers.scope3SpriteRenderer.GetComponent
-                <SpriteRenderer>().enabled = true;
-            }
+            
         }
         else
         {
             //When right click is released
-            gunCamera.fieldOfView = Mathf.Lerp(gunCamera.fieldOfView,
-                defaultFov, fovSpeed * Time.deltaTime);
+            /*.fieldOfView = Mathf.Lerp(gunCamera.fieldOfView,
+                defaultFov, fovSpeed * Time.deltaTime); */
 
             isAiming = false;
 
-            //If iron sights are enabled, use normal aim out
-            if (ironSights == true)
-            {
-                anim.SetBool("Aim", false);
-            }
-            //If scope 2 is enabled, use scope 2 aim out animation
-            if (scope2 == true)
-            {
-                anim.SetBool("Aim Scope 2", false);
-            }
-            //If scope 3 is enabled, use scope 3 aim out animation
-            if (scope3 == true)
-            {
-                anim.SetBool("Aim Scope 3", false);
-            }
-
-            soundHasPlayed = false;
-
-            //If scope 2 is true, disable scope sight texture when not aiming
-            if (scope2 == true)
-            {
-                WeaponAttachmentRenderers.scope2SpriteRenderer.GetComponent
-                <SpriteRenderer>().enabled = false;
-            }
-            //If scope 3 is true, disable scope sight texture when not aiming
-            if (scope3 == true)
-            {
-                WeaponAttachmentRenderers.scope3SpriteRenderer.GetComponent
-                <SpriteRenderer>().enabled = false;
-            }
+           
         }
         //Aiming end
 
@@ -587,19 +440,7 @@ public class PistolScript : MonoBehaviour
             }
             else //if aiming
             {
-                if (ironSights == true)
-                {
-                    anim.Play("Aim Fire", 0, 0f);
-                }
-                if (scope2 == true)
-                {
-                    anim.Play("Aim Fire Scope 2", 0, 0f);
-                }
-                if (scope3 == true)
-                {
-                    anim.Play("Aim Fire Scope 3", 0, 0f);
-                }
-
+                
                 //If random muzzle is false
                 if (!randomMuzzleflash && !silencer)
                 {
@@ -648,8 +489,8 @@ public class PistolScript : MonoBehaviour
             anim.SetTrigger("Inspect");
         }
 
-        //Toggle weapon holster when pressing E key
-        /*if (Input.GetKeyDown (KeyCode.E) && !hasBeenHolstered) 
+        /////////////////////////////////////////////////////////////////////Toggle weapon holster when pressing Z key
+        if (Input.GetKeyDown (KeyCode.Z) && !hasBeenHolstered) 
 		{
 			holstered = true;
 
@@ -658,7 +499,7 @@ public class PistolScript : MonoBehaviour
 
 			hasBeenHolstered = true;
 		} 
-		else if (Input.GetKeyDown (KeyCode.E) && hasBeenHolstered) 
+		else if (Input.GetKeyDown (KeyCode.Z) && hasBeenHolstered) 
 		{
 			holstered = false;
 
@@ -666,8 +507,8 @@ public class PistolScript : MonoBehaviour
 			mainAudioSource.Play ();
 
 			hasBeenHolstered = false;
-		}*/
-
+		}
+        
         //Holster anim toggle
         if (holstered == true)
         {
@@ -677,6 +518,8 @@ public class PistolScript : MonoBehaviour
         {
             anim.SetBool("Holster", false);
         }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //Reload 
         if (Input.GetKeyDown(KeyCode.R) && !isReloading && !isInspecting)

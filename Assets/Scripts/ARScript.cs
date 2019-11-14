@@ -50,11 +50,19 @@ public class ARScript : MonoBehaviour
     //Check if reloading
     private bool isReloading;
 
-    
+
+    //Holstering weapon
+    private bool hasBeenHolstered = false;
+    //If weapon is holstered
+    private bool holstered;
+    //Check if running
+    private bool isRunning;
     //Check if aiming
     private bool isAiming;
     //Check if walking
     private bool isWalking;
+    //Check if inspecting weapon
+    private bool isInspecting;
 
     //How much ammo is currently left
     private int currentAmmo;
@@ -222,27 +230,7 @@ public soundClips SoundClips; */
         shootAudioSource.clip = SoundClips.shootSound;
     }
 
-    private void LateUpdate()
-    {
-        /*
-        //Weapon sway
-        if (weaponSway == true)
-        {
-            float movementX = -Input.GetAxis("Mouse X") * swayAmount;
-            float movementY = -Input.GetAxis("Mouse Y") * swayAmount;
-            //Clamp movement to min and max values
-            movementX = Mathf.Clamp
-                (movementX, -maxSwayAmount, maxSwayAmount);
-            movementY = Mathf.Clamp
-                (movementY, -maxSwayAmount, maxSwayAmount);
-            //Lerp local pos
-            Vector3 finalSwayPosition = new Vector3
-                (movementX, movementY, 0);
-            transform.localPosition = Vector3.Lerp
-                (transform.localPosition, finalSwayPosition +
-                    initialSwayPosition, Time.deltaTime * swaySmoothValue);
-        }*/
-    }
+    
 
     private void Update()
     {
@@ -374,7 +362,39 @@ public soundClips SoundClips; */
         {
             anim.SetTrigger("Inspect");
         }
-        
+
+        /////////////////////////////////////////////////////////////////////Toggle weapon holster when pressing Z key
+        if (Input.GetKeyDown(KeyCode.Z) && !hasBeenHolstered)
+        {
+            holstered = true;
+
+            mainAudioSource.clip = SoundClips.holsterSound;
+            mainAudioSource.Play();
+
+            hasBeenHolstered = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.Z) && hasBeenHolstered)
+        {
+            holstered = false;
+
+            mainAudioSource.clip = SoundClips.takeOutSound;
+            mainAudioSource.Play();
+
+            hasBeenHolstered = false;
+        }
+
+        //Holster anim toggle
+        if (holstered == true)
+        {
+            anim.SetBool("Holster", true);
+        }
+        else
+        {
+            anim.SetBool("Holster", false);
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         //Reload 
         if (Input.GetKeyDown(KeyCode.R) && !isReloading /* && !isInspecting */)
         {

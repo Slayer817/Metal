@@ -11,6 +11,7 @@ public class PlayerInventory : MonoBehaviour
     public GameObject[] Unequipped;
 
     public ARScript arScript;
+    public PistolScript pistolScript;
 
     public AudioClip cockingClip1;
     public AudioClip cockingClip2;
@@ -36,7 +37,7 @@ public class PlayerInventory : MonoBehaviour
     {
         int childCounter = 0;
 
-        Debug.Log("testing 1");
+
 
         foreach (Transform child in transform)
         {
@@ -50,6 +51,21 @@ public class PlayerInventory : MonoBehaviour
                         {
                             Unequipped[childCounter] = childOFchild.gameObject;
                             Unequipped[childCounter].gameObject.GetComponent<ARScript>().storedWeaponNumber = childCounter;
+                            childCounter = childCounter + 1;
+                        }
+
+                        else if (childOFchild.gameObject.GetComponent<PistolScript>() != null)
+                        {
+                            Unequipped[childCounter] = childOFchild.gameObject;
+                            Unequipped[childCounter].gameObject.GetComponent<PistolScript>().storedWeaponNumber = childCounter;
+                            childCounter = childCounter + 1;
+                        }
+
+                        else if (childOFchild.gameObject.GetComponent<BurstScript>() != null)
+                        {
+
+                            Unequipped[childCounter] = childOFchild.gameObject;
+                            Unequipped[childCounter].gameObject.GetComponent<BurstScript>().storedWeaponNumber = childCounter;
                             childCounter = childCounter + 1;
                         }
                     }
@@ -160,23 +176,35 @@ public class PlayerInventory : MonoBehaviour
                         {
                             if (Unequipped[i].gameObject.name == weaponPUTZ.pickupWeap.gameObject.name)
                             {
-                                Debug.Log("pickup 1 WorksFine");
+                                if (Unequipped[i].gameObject.GetComponent<ARScript>() != null)
+                                {
+                                    Unequipped[i].gameObject.SetActive(true);
+                                    weaponEquiped[1].gameObject.SetActive(false);
 
-                                currentWeapInvNumber = weaponEquiped[1].gameObject.GetComponent<ARScript>().storedWeaponNumber;
-
-                                Debug.Log("Current weapon inventory number is " + currentWeapInvNumber);
-
-                                Unequipped[i].gameObject.SetActive(true);
-                                weaponEquiped[1].gameObject.SetActive(false);
-
-                                cockingSource.clip = cockingClip1;
-                                cockingSource.Play();
+                                    cockingSource.clip = cockingClip1;
+                                    cockingSource.Play();
 
 
-                                weaponEquiped[1] = Unequipped[i];
+                                    weaponEquiped[1] = Unequipped[i];
 
-                                Unequipped[i] = null;
-                                deletedUnCase = i;
+                                    Unequipped[i] = null;
+                                    deletedUnCase = i;
+                                }
+
+                                else if (Unequipped[i].gameObject.GetComponent<PistolScript>() != null)
+                                {
+                                    Unequipped[i].gameObject.SetActive(true);
+                                    weaponEquiped[1].gameObject.SetActive(false);
+
+                                    cockingSource.clip = cockingClip1;
+                                    cockingSource.Play();
+
+
+                                    weaponEquiped[1] = Unequipped[i];
+
+                                    Unequipped[i] = null;
+                                    deletedUnCase = i;
+                                }
                             }
                         }
                     }
@@ -214,9 +242,7 @@ public class PlayerInventory : MonoBehaviour
             }
             
         }
-
         
-
     }
 
 
@@ -243,14 +269,14 @@ public class PlayerInventory : MonoBehaviour
 
                             Unequipped[i] = null;
 
-                        Debug.Log("Sec Weapon 1");
 
-                        weaponEquiped[1].gameObject.SetActive(true);
+
+                            weaponEquiped[1].gameObject.SetActive(true);
                             weaponEquiped[0].gameObject.SetActive(false);
 
-                        Debug.Log("Sec Weapon 2");
 
-                        cockingSource.clip = cockingClip1;
+
+                            cockingSource.clip = cockingClip1;
                             cockingSource.Play();
 
                             activeWeapIs = 1;
