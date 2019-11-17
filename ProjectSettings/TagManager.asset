@@ -31,6 +31,9 @@ TagManager:
   - Player Informer
   - Scope BG
   - Scope
+  - SFX
+  - Crosshairs
+  - Attachment
   layers:
   - Default
   - TransparentFX

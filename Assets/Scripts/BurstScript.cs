@@ -76,6 +76,7 @@ public class BurstScript : MonoBehaviour
     public GameObject silencerGO;
 
     public BurstScopesToggler scopeToggler;
+    public ScopeScript scopeScript;
     
 
     //Eanbles auto reloading when out of ammo
@@ -207,7 +208,7 @@ public class BurstScript : MonoBehaviour
 
     private void Start()
     {
-
+        
         weaponName = gameObject.name;
 
         //gunCamera = GameObject.FindGameObjectWithTag("Player Camera").GetComponent<Camera>();
@@ -403,8 +404,7 @@ public class BurstScript : MonoBehaviour
         {
             StartCoroutine(Burst());
         }
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
 
         if(Input.GetMouseButtonUp(0))
         {
@@ -412,6 +412,14 @@ public class BurstScript : MonoBehaviour
             burstEnabler = true;
             
         }
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///
+
+        if(Input.GetMouseButtonDown(1))
+        {
+            Debug.Log("In scope");
+        }
+        
 
         //Toggle weapon holster when E key is pressed
 

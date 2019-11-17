@@ -13,6 +13,9 @@ public class PlayerInventory : MonoBehaviour
     public ARScript arScript;
     public PistolScript pistolScript;
 
+
+    public ScopeScript scopeScript;
+
     public AudioClip cockingClip1;
     public AudioClip cockingClip2;
     public AudioSource cockingSource;
@@ -50,14 +53,18 @@ public class PlayerInventory : MonoBehaviour
                         if (childOFchild.gameObject.GetComponent<ARScript>() != null)
                         {
                             Unequipped[childCounter] = childOFchild.gameObject;
+                            Unequipped[childCounter].gameObject.GetComponent<ARScript>().weaponName = Unequipped[childCounter].gameObject.name;
                             Unequipped[childCounter].gameObject.GetComponent<ARScript>().storedWeaponNumber = childCounter;
+                            Unequipped[childCounter].gameObject.GetComponent<ARScript>().WeaponType = "SMG";
                             childCounter = childCounter + 1;
                         }
 
                         else if (childOFchild.gameObject.GetComponent<PistolScript>() != null)
                         {
                             Unequipped[childCounter] = childOFchild.gameObject;
+                            Unequipped[childCounter].gameObject.GetComponent<PistolScript>().weaponName = Unequipped[childCounter].gameObject.name;
                             Unequipped[childCounter].gameObject.GetComponent<PistolScript>().storedWeaponNumber = childCounter;
+                            Unequipped[childCounter].gameObject.GetComponent<PistolScript>().WeaponType = "Pistol";
                             childCounter = childCounter + 1;
                         }
 
@@ -65,7 +72,9 @@ public class PlayerInventory : MonoBehaviour
                         {
 
                             Unequipped[childCounter] = childOFchild.gameObject;
+                            Unequipped[childCounter].gameObject.GetComponent<BurstScript>().weaponName = Unequipped[childCounter].gameObject.name;
                             Unequipped[childCounter].gameObject.GetComponent<BurstScript>().storedWeaponNumber = childCounter;
+                            Unequipped[childCounter].gameObject.GetComponent<BurstScript>().WeaponType = "Burst Weapon";
                             childCounter = childCounter + 1;
                         }
                     }
@@ -97,6 +106,8 @@ public class PlayerInventory : MonoBehaviour
                 }
             }
         }
+
+        scopeScript.enableScope();
         
     }
 
