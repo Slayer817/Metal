@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class WeaponPickUp : MonoBehaviour
 {
+    [Header("Other Scripts")]
     public PlayerInventoryManager pInventory;
+    public PlayerController pController;
     public SFXManager sfxManager;
     public Text pickupText;
     
@@ -24,6 +26,7 @@ public class WeaponPickUp : MonoBehaviour
     private void Start()
     {
         pInventory = GameObject.FindGameObjectWithTag("Player Inventory").GetComponent<PlayerInventoryManager>();
+        pController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         pickupText = GameObject.FindGameObjectWithTag("Player Informer").GetComponent<Text>();
     }
 
@@ -49,6 +52,8 @@ public class WeaponPickUp : MonoBehaviour
 
                             pickupText.text = "Pick up " + pickupWeap.name;
                             canPickup = true;
+
+                            Debug.Log(canPickup);
                                                         
                         }
 
@@ -182,7 +187,9 @@ public class WeaponPickUp : MonoBehaviour
                         sfxManager.mainAudioSource.Play();
 
                         pInventory.hasSecWeap = true;
-                        
+
+                        pInventory.activeWeapIs = 1;
+            
 
                     }
                 

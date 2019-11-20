@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class GeneralWeapProperties : MonoBehaviour
 {
+    [Header("Other Scripts")]
+    public PlayerInventoryManager pInventory;
+
+    public bool hasFoundComponents = false;
+
+    public GameObject currentActiveWeapon;
     public float grenadeSpawnDelay = 0.35f;
 
     public float showBulletInMagDelay = 0.6f;
     public SkinnedMeshRenderer bulletInMagRenderer;
     
     
-    public bool randomMuzzleflash = false;
+    public bool randomMuzzleflash = true;
     public int minRandomValue = 1;    
     public int maxRandomValue = 5;
     public int randomMuzzleflashValue;
@@ -28,10 +34,12 @@ public class GeneralWeapProperties : MonoBehaviour
     
     [Header("Prefabs")]
     public Transform bulletPrefab;
-    public Transform casingPrefab;
+    public Transform bigCasingPrefab;
+    public Transform smallCasingPrefab;
+    public Transform shotgunShellPrefab;
     public Transform grenadePrefab;
-    
-    
+
+
     [Header("Spawnpoints")]
     public Transform casingSpawnPoint;
     public Transform bulletSpawnPoint;
@@ -43,22 +51,42 @@ public class GeneralWeapProperties : MonoBehaviour
     void Start()
     {
 
-    }
+        if(hasFoundComponents == false)
+        {
+            
+            pInventory = GameObject.FindGameObjectWithTag("Player Inventory").GetComponent<PlayerInventoryManager>();
 
-    void FindComponents()
-    {
-        bulletInMagRenderer = GameObject.FindGameObjectWithTag("Bullet Renderer").GetComponent<SkinnedMeshRenderer>();
-        muzzleParticles = GameObject.FindGameObjectWithTag("Muzzleflash Particles").GetComponent<ParticleSystem>();
-        sparkParticles = GameObject.FindGameObjectWithTag("Spark Particles").GetComponent<ParticleSystem>();
-        muzzleflashLight = GameObject.FindGameObjectWithTag("Muzzleflash Light").GetComponent<Light>();
+            
+            muzzleParticles = GameObject.FindGameObjectWithTag("Muzzleflash Particles").GetComponent<ParticleSystem>();
+            sparkParticles = GameObject.FindGameObjectWithTag("Spark Particles").GetComponent<ParticleSystem>();
+            muzzleflashLight = GameObject.FindGameObjectWithTag("Muzzleflash Light").GetComponent<Light>();
 
-        muzzleflashLight.enabled = false;
+            muzzleflashLight.enabled = false;
+
+
+            //Prefabs.bulletPrefab = (GameObject)Resources.Load("Bullet_Prefab", typeof(GameObject));
+
+            casingSpawnPoint = GameObject.FindGameObjectWithTag("Casing Spawn Point").GetComponent<Transform>();
+            bulletSpawnPoint = GameObject.FindGameObjectWithTag("Bullet Spawn Point").GetComponent<Transform>();
+            grenadeSpawnPoint = GameObject.FindGameObjectWithTag("Grenade Spawn Point").GetComponent<Transform>();
+
+            hasFoundComponents = true;
+        }
         
-
-        //Prefabs.bulletPrefab = (GameObject)Resources.Load("Bullet_Prefab", typeof(GameObject));
-
-        casingSpawnPoint = GameObject.FindGameObjectWithTag("Casing Spawn Point").GetComponent<Transform>();
-        bulletSpawnPoint = GameObject.FindGameObjectWithTag("Bullet Spawn Point").GetComponent<Transform>();
-        grenadeSpawnPoint = GameObject.FindGameObjectWithTag("Grenade Spawn Point").GetComponent<Transform>();
+        bulletInMagRenderer = GameObject.FindGameObjectWithTag("Bullet Renderer").GetComponent<SkinnedMeshRenderer>(); //The Mesh Renderer is different for every weapon because its the bullet inside the mag
+                
     }
+
+    private void Update()
+    {
+        if (pInventory.activeWeapIs == 0)
+        {
+            currentActiveWeapon = pInventory.weaponEquiped[0];
+        }
+        else if (pInventory.activeWeapIs == 1 && pInventory.weaponEquiped[1] != null)
+        {
+            currentActiveWeapon = pInventory.weaponEquiped[1];
+        }
+    }
+
 }

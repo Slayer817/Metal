@@ -125,7 +125,6 @@
     <Compile Include="Assets\Scripts\ARScript.cs" />
     <Compile Include="Assets\Scripts\BurstScopesToggler.cs" />
     <Compile Include="Assets\Scripts\BurstScript.cs" />
-    <Compile Include="Assets\Scripts\GeneralWeaponProperties.cs" />
     <Compile Include="Assets\Scripts\New Scripts\ActivateScope.cs" />
     <Compile Include="Assets\Scripts\New Scripts\Aiming.cs" />
     <Compile Include="Assets\Scripts\New Scripts\Attachments.cs" />

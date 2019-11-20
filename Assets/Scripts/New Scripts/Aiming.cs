@@ -17,13 +17,13 @@ public class Aiming : MonoBehaviour
     {
         if(hasFoundComponents == false)
         {
-            Debug.Log("In void");
-            aimingBG = gameObject;
-            Debug.Log("In void 2");
-            //pController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+            aimingBG = gameObject.transform.GetChild(0).gameObject;
+            pController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
             
             hasFoundComponents = true;
         }
+
+        Debug.Log(pController.isAiming);
         
         if(pController.isAiming == true)
         {

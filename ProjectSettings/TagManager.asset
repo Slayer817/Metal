@@ -6,8 +6,6 @@ TagManager:
   tags:
   - Pickable
   - Player_1_Inventory
-  - Metal
-  - ZombieAttackTrigger
   - Dirt
   - Blood
   - Player 1
@@ -34,6 +32,8 @@ TagManager:
   - SFX
   - Crosshairs
   - Attachment
+  - Components
+  - Weapon Sounds
   layers:
   - Default
   - TransparentFX

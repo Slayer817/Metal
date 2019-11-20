@@ -9,21 +9,15 @@ public class PlayerController : MonoBehaviour
     public SFXManager sfxManager;
     public WeaponSounds weapSounds;
     public PlayerProperties playerProperties;
+    public PlayerInventoryManager pInventory;
     public GeneralWeapProperties generalWeapProp;
     public WeaponProperties weapProperties;
-
     public Animator anim;
 
     [HideInInspector]
-    public bool hasBeenHolstered = false; //Holstering weapon
-    public bool holstered; //If weapon is holstered
-    public bool isRunning; //Check if running
-    public bool isAiming;//Check if aiming
-    public bool isWalking; //Check if walking
-    public bool isInspecting; //Check if inspecting weapon
-    public bool isReloading; //Check if reloading
-    public bool isShooting;
-    public bool aimSoundHasPlayed = false;
+    public bool hasBeenHolstered = false, holstered, isRunning, isAiming, isWalking;
+    [HideInInspector]
+    public bool isInspecting, isReloading, isShooting, aimSoundHasPlayed = false, hasFoundComponents = false;
 
     //Used for fire rate
     private float lastFired;
@@ -40,18 +34,38 @@ public class PlayerController : MonoBehaviour
     //private bool isReloading;
 
 
-    private void Start()
+    public void Start()
     {
-        FindComponents();
+        if(hasFoundComponents == false)
+        {
+            aimingScript = GameObject.FindGameObjectWithTag("Scope BG").GetComponent<Aiming>();
+            sfxManager = GameObject.FindGameObjectWithTag("SFX").GetComponent<SFXManager>();
+            weapSounds = GameObject.FindGameObjectWithTag("Weapon Sounds").GetComponent<WeaponSounds>();
+
+            pInventory = GameObject.FindGameObjectWithTag("Player Inventory").GetComponent<PlayerInventoryManager>();
+
+            playerProperties = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerProperties>();
+            generalWeapProp = GameObject.FindGameObjectWithTag("Player").GetComponent<GeneralWeapProperties>();
+            weapProperties = GameObject.FindGameObjectWithTag("Weapon").GetComponent<WeaponProperties>();
+                        
+        }
+
+        
     }
 
-    void FindComponents()
-    {
-
-    }
 
     private void Update()
     {
+        if(pInventory.activeWeapIs == 0)
+                {
+                    anim = pInventory.weaponEquiped[0].gameObject.GetComponent<Animator>();
+                }
+
+        else if (pInventory.activeWeapIs == 1)
+        {
+            anim = pInventory.weaponEquiped[1].gameObject.GetComponent<Animator>();
+        }
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //Aiming
