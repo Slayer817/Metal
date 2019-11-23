@@ -23,9 +23,13 @@ public class Aiming : MonoBehaviour
             hasFoundComponents = true;
         }
 
-        Debug.Log(pController.isAiming);
-        
-        if(pController.isAiming == true)
+               
+
+    }
+
+    public void Update()
+    {
+        if (pController.isAiming == true)
         {
             aimingBG.SetActive(true);
         }
@@ -34,9 +38,7 @@ public class Aiming : MonoBehaviour
         {
             aimingBG.SetActive(false);
         }
-        
-
     }
 
-    
+
 }

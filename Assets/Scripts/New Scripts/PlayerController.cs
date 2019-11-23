@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     public GeneralWeapProperties generalWeapProp;
     public WeaponProperties weapProperties;
     public Animator anim;
+    public FullyAutomaticFire fullyAutomaticFire;
+    public BurstFire burstFire;
+    public SingleFire singleFire;
 
     [HideInInspector]
     public bool hasBeenHolstered = false, holstered, isRunning, isAiming, isWalking;
@@ -47,6 +50,10 @@ public class PlayerController : MonoBehaviour
             playerProperties = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerProperties>();
             generalWeapProp = GameObject.FindGameObjectWithTag("Player").GetComponent<GeneralWeapProperties>();
             weapProperties = GameObject.FindGameObjectWithTag("Weapon").GetComponent<WeaponProperties>();
+
+            fullyAutomaticFire = GetComponent<FullyAutomaticFire>();
+            burstFire = GetComponent<BurstFire>();
+            singleFire = GetComponent<SingleFire>();
                         
         }
 
@@ -66,17 +73,28 @@ public class PlayerController : MonoBehaviour
             anim = pInventory.weaponEquiped[1].gameObject.GetComponent<Animator>();
         }
 
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Firing
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        if (Input.GetMouseButton(0) && !weapProperties.outOfAmmo && !isReloading && !isShooting && !isInspecting /*&& !isRunning && burstEnabler*/)
+        {
+            isShooting = true;
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
 
         //Aiming
         //Toggle camera FOV when right click is held down
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         if (Input.GetButton("Fire2") && !isReloading && !isRunning && !isInspecting)
         {
 
             isAiming = true;
 
-            aimingScript.aimingBG.SetActive(true);
-              
+            //anim.SetBool("Aim", true);
+
             sfxManager.mainAudioSource.clip = sfxManager.aimingSound;
             sfxManager.mainAudioSource.Play();
             
@@ -87,19 +105,19 @@ public class PlayerController : MonoBehaviour
             
             isAiming = false;
 
-            aimingScript.aimingBG.SetActive(false);
-                        
+            //anim.SetBool("Aim", false);
+
             sfxManager.mainAudioSource.clip = sfxManager.aimingSound;
             sfxManager.mainAudioSource.Play();
             
 
         }
-        //Aiming end
-
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //If randomize muzzleflash is true, genereate random int values
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
         if (generalWeapProp.randomMuzzleflash == true)
         {
             generalWeapProp.randomMuzzleflashValue = Random.Range(generalWeapProp.minRandomValue, generalWeapProp.maxRandomValue);
@@ -152,32 +170,10 @@ public class PlayerController : MonoBehaviour
             weapProperties.outOfAmmo = false;
             //anim.SetBool ("Out Of Ammo", false);
         }
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //AUtomatic fire
-        //Left click hold 
-        if (Input.GetMouseButton(0) && !weapProperties.outOfAmmo && !isReloading && !isShooting && !isInspecting /*&& !isRunning && burstEnabler*/)
-        {
-            //StartCoroutine(Burst());
-        }
+        
 
 
-        if (Input.GetMouseButtonUp(0))
-        {
-
-            //burstEnabler = true;
-
-        }
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ///
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            Debug.Log("In scope");
-        }
-
-
-        //Toggle weapon holster when E key is pressed
-
+        //Toggle weapon holster when Z key is pressed
         ////////////////////////////////////////////////////////////////////// Toggle weapon holster when pressing Z key
         if (Input.GetKeyDown(KeyCode.Z) && !hasBeenHolstered)
         {
@@ -208,9 +204,9 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("Holster", false);
         }
 
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //Inspect weapon when T key is pressed
+        ///////////////////////////////////////
         if (Input.GetKeyDown(KeyCode.T))
         {
             anim.SetTrigger("Inspect");
