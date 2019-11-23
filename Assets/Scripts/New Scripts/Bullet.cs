@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [Header("Other Scripts")]
-    public BulletProperties bProperties;
+    // BulletProperties bProperties;
     public PlayerInventoryManager pInventory;
     public WeaponProperties wProperties;
 
@@ -13,11 +13,18 @@ public class Bullet : MonoBehaviour
 
     public float bulletSpeed;
 
+    private bool hasFoundComponents = false;
+
     Vector3 prePos;
 
     void Start()
     {
-        bulletSpeed = wProperties.bulletSpeed;
+        if(!hasFoundComponents)
+        {
+            //bProperties = GetComponent<BulletProperties>();
+            pInventory = GameObject.FindGameObjectWithTag("Player Inventory").GetComponent<PlayerInventoryManager>();
+        }
+        
 
         //Debug.Log(ws.bulletForce);
         prePos = transform.position;
@@ -65,11 +72,13 @@ public class Bullet : MonoBehaviour
         if (pInventory.activeWeapIs == 0)
         {
             wProperties = pInventory.weaponEquiped[0].gameObject.GetComponent<WeaponProperties>();
+            bulletSpeed = wProperties.bulletSpeed;
         }
 
         else if (pInventory.activeWeapIs == 1)
         {
             wProperties = pInventory.weaponEquiped[1].gameObject.GetComponent<WeaponProperties>();
+            bulletSpeed = wProperties.bulletSpeed;
         }
     }
 

@@ -14,10 +14,11 @@ public class BurstFire : MonoBehaviour
 
     private bool burstEnabler = true;
     private int burstCounter = 3;
-    public float burstInterval = 0.5f;
-    private bool isShooting;
+    public float burstInterval = 0.05f;
+    public float nextBurstInterval = 0.25f;
 
     public bool ThisisShooting = false;
+    public bool hasButtonDown = false;
 
     public bool hasFoundComponents = false;
 
@@ -31,67 +32,77 @@ public class BurstFire : MonoBehaviour
             gwProperties = GameObject.FindGameObjectWithTag("Player").GetComponent<GeneralWeapProperties>();
 
             hasFoundComponents = true;
+            
         }
-
-        wProperties.currentAmmo -= 1;
-
-        if (anim != null)
-        {
-            anim.Play("Fire", 0, 0f);
-        }
-
-        //If random muzzle is false
-        if (!gwProperties.randomMuzzleflash &&
-            gwProperties.enableMuzzleflash == true /*&& !silencer*/)
-        {
-            //gwProperties.muzzleParticles.Emit(1);
-            //Light flash start
-            //StartCoroutine(gwProperties.muzzleflashlight());
-        }
-        else if (gwProperties.randomMuzzleflash == true)
-        {
-            //Only emit if random value is 1
-            if (gwProperties.randomMuzzleflashValue == 1)
-            {
-                if (gwProperties.enableSparks == true)
-                {
-                    //Emit random amount of spark particles
-                    gwProperties.sparkParticles.Emit(Random.Range(gwProperties.minSparkEmission, gwProperties.maxSparkEmission));
-                }
-                if (gwProperties.enableMuzzleflash == true /*&& !silencer*/)
-                {
-                    gwProperties.muzzleParticles.Emit(1);
-                    //Light flash start
-                    //StartCoroutine(MuzzleFlashLight());
-                }
-            }
-        }
-
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //Spawn bullet from bullet spawnpoint
-        var bullet = (Transform)Instantiate(gwProperties.bulletPrefab, gwProperties.bulletSpawnPoint.transform.position, gwProperties.bulletSpawnPoint.transform.rotation);
-
-        //Add velocity to the bullet
-
-        //bullet.gameObject.transform.Translate(Vector3.forward * Time.deltaTime * bulletForce);
-
-        BulletDetector detectorScript = bullet.GetComponent<BulletDetector>();
+        
         
 
-        //Spawn casing prefab at spawnpoint
-        Instantiate(gwProperties.bigCasingPrefab,
-            gwProperties.casingSpawnPoint.transform.position,
-            gwProperties.casingSpawnPoint.transform.rotation);
-        Debug.Log("Spawned Bullet");
+        if (ThisisShooting == true)
+        {
+
+            wProperties.currentAmmo -= 1;
+
+            if (anim != null)
+            {
+                anim.Play("Fire", 0, 0f);
+            }
+
+            //If random muzzle is false
+            if (!gwProperties.randomMuzzleflash &&
+                gwProperties.enableMuzzleflash == true /*&& !silencer*/)
+            {
+                //gwProperties.muzzleParticles.Emit(1);
+                //Light flash start
+                //StartCoroutine(gwProperties.muzzleflashlight());
+            }
+            else if (gwProperties.randomMuzzleflash == true)
+            {
+                //Only emit if random value is 1
+                if (gwProperties.randomMuzzleflashValue == 1)
+                {
+                    if (gwProperties.enableSparks == true)
+                    {
+                        //Emit random amount of spark particles
+                        gwProperties.sparkParticles.Emit(Random.Range(gwProperties.minSparkEmission, gwProperties.maxSparkEmission));
+                    }
+                    if (gwProperties.enableMuzzleflash == true /*&& !silencer*/)
+                    {
+                        gwProperties.muzzleParticles.Emit(1);
+                        //Light flash start
+                        //StartCoroutine(MuzzleFlashLight());
+                    }
+                }
+            }
+
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //Spawn bullet from bullet spawnpoint
+            var bullet = (Transform)Instantiate(gwProperties.bulletPrefab, gwProperties.bulletSpawnPoint.transform.position, gwProperties.bulletSpawnPoint.transform.rotation);
+
+            //Add velocity to the bullet
+
+            //bullet.gameObject.transform.Translate(Vector3.forward * Time.deltaTime * bulletForce);
+
+            BulletDetector detectorScript = bullet.GetComponent<BulletDetector>();
+
+
+            //Spawn casing prefab at spawnpoint
+            Instantiate(gwProperties.bigCasingPrefab,
+                gwProperties.casingSpawnPoint.transform.position,
+                gwProperties.casingSpawnPoint.transform.rotation);
+            Debug.Log("Spawned Bullet");
+
+        }
 
     }
 
     public void Update()
-    {
-        if (pController.isShooting && burstEnabler)
+    {       
+
+        if (pController.isShooting && !ThisisShooting && !hasButtonDown)
         {
             StartCoroutine(Burst());
+            hasButtonDown = true;
         }
 
         /*if (Input.GetMouseButtonUp(0))
@@ -110,8 +121,22 @@ public class BurstFire : MonoBehaviour
             wProperties = pInventory.weaponEquiped[1].gameObject.GetComponent<WeaponProperties>();
             anim = pInventory.weaponEquiped[1].gameObject.GetComponent<Animator>();
         }
-    }
 
+        if(pController.isShooting == false)
+        {
+
+        }
+
+        
+        if(Input.GetMouseButtonUp(0))
+        {
+            hasButtonDown = false;
+        }
+        
+    }
+    
+
+    
 
 
         IEnumerator Burst()
@@ -119,23 +144,23 @@ public class BurstFire : MonoBehaviour
             burstEnabler = false;
             ThisisShooting = true;
 
-            for (int i = 0; i < burstCounter; i++)
+            for (int i = 1; i < burstCounter + 1; i++)
             {
                 Start();
                 
 
 
-                Debug.Log(burstCounter);
+                Debug.Log(i);
                         
 
                 yield return new WaitForSeconds(burstInterval);
 
             }
 
-            isShooting = false;
-            yield return new WaitForSeconds(burstInterval);
-
-
+            yield return new WaitForSeconds(nextBurstInterval);
+            ThisisShooting = false;
+            
+        
 
         }
     

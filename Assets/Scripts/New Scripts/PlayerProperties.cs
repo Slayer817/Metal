@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class PlayerProperties : MonoBehaviour
 {
     [Header("Other Scripts")]
-    public WeaponProperties weapProperties;
+    public PlayerInventoryManager pInventory;
+    public WeaponProperties wProperties;
 
     [Header("Gun Camera Options")]
     [Tooltip("Default value for camera field of view (40 is recommended).")]
@@ -35,15 +36,27 @@ public class PlayerProperties : MonoBehaviour
         currentAmmoText = GameObject.FindGameObjectWithTag("Current Ammo Text").GetComponent<Text>();
         totalAmmoText = GameObject.FindGameObjectWithTag("Total Ammo Text").GetComponent<Text>();
 
-        
-        //Set total ammo text from total ammo int
-        totalAmmoText.text =  weapProperties.ammo.ToString();
-        
+        pInventory = GameObject.FindGameObjectWithTag("Player Inventory").GetComponent<PlayerInventoryManager>();
 
+    }
+
+    private void Update()
+    {
+        if (pInventory.activeWeapIs == 0)
+        {
+            wProperties = pInventory.weaponEquiped[0].gameObject.GetComponent<WeaponProperties>();
+            totalAmmoText.text = wProperties.ammo.ToString();
+        }
+
+        else if (pInventory.activeWeapIs == 1)
+        {
+            wProperties = pInventory.weaponEquiped[1].gameObject.GetComponent<WeaponProperties>();
+            totalAmmoText.text = wProperties.ammo.ToString();
+        }
     }
 
 
 
-    
+
 
 }

@@ -6,7 +6,7 @@ public class BulletProperties : MonoBehaviour
 {
     [Range(5, 100)]
     [Tooltip("After how long time should the bullet prefab be destroyed?")]
-    public float destroyAfter;
+    public float destroyAfter = 5;
     [Tooltip("If enabled the bullet destroys on impact")]
     public bool destroyOnImpact = false;
     [Tooltip("Minimum time after impact that the bullet is destroyed")]

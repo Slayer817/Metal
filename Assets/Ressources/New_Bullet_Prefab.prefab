@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 65871565580582628}
   - component: {fileID: 96448838451407516}
   - component: {fileID: 8802574324347194575}
-  - component: {fileID: -8308879256362913551}
   m_Layer: 9
   m_Name: New_Bullet_Prefab
   m_TagString: Untagged
@@ -49,7 +48,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0.65
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 0
@@ -184,31 +183,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e161c5caaa443d4384684416f005073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bProperties: {fileID: 0}
   pInventory: {fileID: 0}
   wProperties: {fileID: 0}
   collision: {fileID: 0}
   bulletSpeed: 0
---- !u!114 &-8308879256362913551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1086664671600574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0b9b09fea4d8d942890fd7dc4678999, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  destroyAfter: 0
-  destroyOnImpact: 0
-  minDestroyTime: 0
-  maxDestroyTime: 0
-  bloodImpactPrefabs: []
-  metalImpactPrefabs: []
-  dirtImpactPrefabs: []
-  concreteImpactPrefabs: []
 --- !u!1 &1231345400216816
 GameObject:
   m_ObjectHideFlags: 0
