@@ -8,10 +8,12 @@ public class Bullet : MonoBehaviour
     // BulletProperties bProperties;
     public PlayerInventoryManager pInventory;
     public WeaponProperties wProperties;
+    public ZombieScript zScript;
 
     public GameObject collision;
 
     public float bulletSpeed;
+    public float damage;
 
     private bool hasFoundComponents = false;
 
@@ -46,6 +48,14 @@ public class Bullet : MonoBehaviour
         for (int i = 0; i < hits.Length; i++)
         {
             Debug.Log(hits[i].collider.gameObject.name);
+
+            if(hits[i].collider.gameObject.tag == "Zombie")
+            {
+                zScript = hits[i].collider.gameObject.GetComponent<ZombieScript>();
+                Debug.Log(damage);
+                zScript.Health -= damage;
+                Debug.Log("Detector Works");
+            }
             //collision = hits[i].collider.gameObject;
 
 
@@ -73,12 +83,14 @@ public class Bullet : MonoBehaviour
         {
             wProperties = pInventory.weaponEquiped[0].gameObject.GetComponent<WeaponProperties>();
             bulletSpeed = wProperties.bulletSpeed;
+            damage = wProperties.damage;
         }
 
         else if (pInventory.activeWeapIs == 1)
         {
             wProperties = pInventory.weaponEquiped[1].gameObject.GetComponent<WeaponProperties>();
             bulletSpeed = wProperties.bulletSpeed;
+            damage = wProperties.damage;
         }
     }
 

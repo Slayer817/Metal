@@ -33,7 +33,7 @@ public class ProjectileScript : MonoBehaviour {
 	//Intensity of the explosion
 	[Tooltip("Explosion intensity")]
 	public float power = 250.0F;
-
+   
 	[Header("Rocket Launcher Projectile")]
 	[Tooltip("Enabled if the projectile has particle effects")]
 	public bool usesParticles;

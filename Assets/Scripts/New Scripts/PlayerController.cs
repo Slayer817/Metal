@@ -64,12 +64,14 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         if(pInventory.activeWeapIs == 0)
-                {
-                    anim = pInventory.weaponEquiped[0].gameObject.GetComponent<Animator>();
-                }
+        {
+            weapProperties = pInventory.weaponEquiped[0].gameObject.GetComponent<WeaponProperties>();
+            anim = pInventory.weaponEquiped[0].gameObject.GetComponent<Animator>();
+        }
 
         else if (pInventory.activeWeapIs == 1)
         {
+            weapProperties = pInventory.weaponEquiped[1].gameObject.GetComponent<WeaponProperties>();
             anim = pInventory.weaponEquiped[1].gameObject.GetComponent<Animator>();
         }
 
@@ -77,7 +79,7 @@ public class PlayerController : MonoBehaviour
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         if (Input.GetMouseButton(0) && !weapProperties.outOfAmmo && !isReloading && !isShooting && !isInspecting /*&& !isRunning && burstEnabler*/)
-        {
+        { 
             isShooting = true;
         }
         else
@@ -213,7 +215,8 @@ public class PlayerController : MonoBehaviour
         ///////////////////////////////////////
         if (Input.GetKeyDown(KeyCode.T))
         {
-            anim.SetTrigger("Inspect");
+            anim.Play("Reload Open", 0, 0f);
+            //anim.SetTrigger("Inspect");
         }
 
         //Reload 
@@ -242,62 +245,124 @@ public class PlayerController : MonoBehaviour
     //Reload
     private void Reload()
     {
-
-        if (weapProperties.outOfAmmo == true)
+        if (weapProperties.usesMags)
         {
-            //Play diff anim if out of ammo
-            anim.Play("Reload Out Of Ammo", 0, 0f);
 
-            sfxManager.mainAudioSource.clip = weapSounds.reloadSoundOutOfAmmo;
-            sfxManager.mainAudioSource.Play();
-
-            //If out of ammo, hide the bullet renderer in the mag
-            //Do not show if bullet renderer is not assigned in inspector
-            if (generalWeapProp.bulletInMagRenderer != null)
+            if (weapProperties.outOfAmmo == true)
             {
-                generalWeapProp.bulletInMagRenderer.GetComponent
-                <SkinnedMeshRenderer>().enabled = false;
-                //Start show bullet delay
-                StartCoroutine(ShowBulletInMag());
+                //Play diff anim if out of ammo
+                anim.Play("Reload Out Of Ammo", 0, 0f);
+
+                sfxManager.mainAudioSource.clip = weapSounds.reloadSoundOutOfAmmo;
+                sfxManager.mainAudioSource.Play();
+
+                //If out of ammo, hide the bullet renderer in the mag
+                //Do not show if bullet renderer is not assigned in inspector
+                if (generalWeapProp.bulletInMagRenderer != null)
+                {
+                    generalWeapProp.bulletInMagRenderer.GetComponent
+                    <SkinnedMeshRenderer>().enabled = false;
+                    //Start show bullet delay
+                    StartCoroutine(generalWeapProp.ShowBulletInMag());
+                }
             }
+            else
+            {
+                //Play diff anim if ammo left
+                anim.Play("Reload Ammo Left", 0, 0f);
+
+                sfxManager.mainAudioSource.clip = weapSounds.reloadSoundAmmoLeft;
+                sfxManager.mainAudioSource.Play();
+
+                //If reloading when ammo left, show bullet in mag
+                //Do not show if bullet renderer is not assigned in inspector
+                if (generalWeapProp.bulletInMagRenderer != null)
+                {
+                    generalWeapProp.bulletInMagRenderer.GetComponent
+                    <SkinnedMeshRenderer>().enabled = true;
+                }
+            }
+            //Restore ammo when reloading
+            weapProperties.currentAmmo = weapProperties.ammo;
+            weapProperties.outOfAmmo = false;
         }
-        else
+
+        if(weapProperties.usesShells)
         {
-            //Play diff anim if ammo left
-            anim.Play("Reload Ammo Left", 0, 0f);
-
-            sfxManager.mainAudioSource.clip = weapSounds.reloadSoundAmmoLeft;
-            sfxManager.mainAudioSource.Play();
-
-            //If reloading when ammo left, show bullet in mag
-            //Do not show if bullet renderer is not assigned in inspector
-            if (generalWeapProp.bulletInMagRenderer != null)
+            if (weapProperties.outOfAmmo == true)
             {
-                generalWeapProp.bulletInMagRenderer.GetComponent
-                <SkinnedMeshRenderer>().enabled = true;
+                //Play diff anim if out of ammo
+                anim.Play("Reload Open", 0, 0f);
             }
+            else
+            {
+                //Play diff anim if out of ammo
+                anim.Play("Reload Open", 0, 0f);
+                anim.Play("Reload Open", 0, 0f);
+                Debug.Log("Reloading");
+                
+            }
+            //Restore ammo when reloading
+            weapProperties.currentAmmo = weapProperties.ammo;
+            weapProperties.outOfAmmo = false;
         }
-        //Restore ammo when reloading
-        weapProperties.currentAmmo = weapProperties.ammo;
-        weapProperties.outOfAmmo = false;
     }
 
     //Check current animation playing
     private void AnimationCheck()
     {
-
-        //Check if reloading
-        //Check both animations
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Reload Out Of Ammo") ||
-            anim.GetCurrentAnimatorStateInfo(0).IsName("Reload Ammo Left"))
+        if (weapProperties.usesMags)
         {
-            isReloading = true;
-        }
-        else
-        {
-            isReloading = false;
+            //Check if reloading
+            //Check both animations
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Reload Out Of Ammo") ||
+                anim.GetCurrentAnimatorStateInfo(0).IsName("Reload Ammo Left"))
+            {
+                isReloading = true;
+            }
+            else
+            {
+                isReloading = false;
+            }
         }
 
+        if(weapProperties.usesShells)
+        {
+            //Check if reloading
+            //Check both animations
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Reload Open") ||
+                anim.GetCurrentAnimatorStateInfo(0).IsName("Reload Open") ||
+                anim.GetCurrentAnimatorStateInfo(0).IsName("Inser Shell") ||
+                anim.GetCurrentAnimatorStateInfo(0).IsName("Reload Close"))
+            {
+                isReloading = true;
+            }
+            else
+            {
+                isReloading = false;
+            }
+
+            //Check if inspecting weapon
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Inspect"))
+            {
+                isInspecting = true;
+            }
+            else
+            {
+                isInspecting = false;
+            }
+            /*
+            //Check if shooting
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Fire"))
+            {
+                isShooting = true;
+            }
+            else
+            {
+                isShooting = false;
+            }
+            */
+        }
     }
 
     /// <summary>
@@ -321,31 +386,68 @@ public class PlayerController : MonoBehaviour
         //Wait set amount of time
         yield return new WaitForSeconds(autoReloadDelay);
 
-        if (weapProperties.outOfAmmo == true)
+        if (weapProperties.usesMags)
         {
-            //Play diff anim if out of ammo
-            anim.Play("Reload Out Of Ammo", 0, 0f);
 
-            sfxManager.mainAudioSource.clip = weapSounds.reloadSoundOutOfAmmo;
-            sfxManager.mainAudioSource.Play();
-
-            //If out of ammo, hide the bullet renderer in the mag
-            //Do not show if bullet renderer is not assigned in inspector
-            if (generalWeapProp.bulletInMagRenderer != null)
+            if (weapProperties.outOfAmmo == true)
             {
-                generalWeapProp.bulletInMagRenderer.GetComponent
-                <SkinnedMeshRenderer>().enabled = false;
-                //Start show bullet delay
-                StartCoroutine(ShowBulletInMag());
+                //Play diff anim if out of ammo
+                anim.Play("Reload Out Of Ammo", 0, 0f);
+
+                sfxManager.mainAudioSource.clip = weapSounds.reloadSoundOutOfAmmo;
+                sfxManager.mainAudioSource.Play();
+
+                //If out of ammo, hide the bullet renderer in the mag
+                //Do not show if bullet renderer is not assigned in inspector
+                if (generalWeapProp.bulletInMagRenderer != null)
+                {
+                    generalWeapProp.bulletInMagRenderer.GetComponent
+                    <SkinnedMeshRenderer>().enabled = false;
+                    //Start show bullet delay
+                    StartCoroutine(generalWeapProp.ShowBulletInMag());
+                }
+            }
+            //Restore ammo when reloading
+            weapProperties.currentAmmo = weapProperties.ammo;
+            weapProperties.outOfAmmo = false;
+        }
+
+        if(weapProperties.usesShells)
+        {
+            if (weapProperties.outOfAmmo == true)
+            {
+                //Play diff anim if out of ammo
+                anim.Play("Reload Open", 0, 0f);
+
+                while(weapProperties.currentAmmo < weapProperties.ammo)
+                {
+                    anim.Play("Insert Shell", 0, 0f);
+                    weapProperties.currentAmmo += 1;
+                    Debug.Log(weapProperties.currentAmmo);
+                }
+
+                anim.Play("Reload Close", 0, 0f);
             }
         }
-        //Restore ammo when reloading
-        weapProperties.currentAmmo = weapProperties.ammo;
-        weapProperties.outOfAmmo = false;
+            
+        if(weapProperties.usesSingleAmmo)
+        {
+            if (weapProperties.outOfAmmo == true)
+            {
+                //Play diff anim if out of ammo
+                anim.Play("Reload", 0, 0f);
+                
+
+            }
+            //Restore ammo when reloading
+            weapProperties.currentAmmo = weapProperties.ammo;
+            weapProperties.outOfAmmo = false;
+        }
+        
     }
 
     
-
+    /*
     //Enable bullet in mag renderer after set amount of time
     private IEnumerator ShowBulletInMag()
     {
@@ -363,7 +465,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(generalWeapProp.lightDuration);
         generalWeapProp.muzzleflashLight.enabled = false;
     }
-
+    */
     
 
 

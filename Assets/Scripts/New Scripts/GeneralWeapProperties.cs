@@ -38,6 +38,8 @@ public class GeneralWeapProperties : MonoBehaviour
     public Transform smallCasingPrefab;
     public Transform shotgunShellPrefab;
     public Transform grenadePrefab;
+    public Transform grenadeLauncherProjectilePrefab;
+    public Transform rocketProjectilePrefab;
 
 
     [Header("Spawnpoints")]
@@ -87,6 +89,24 @@ public class GeneralWeapProperties : MonoBehaviour
         {
             currentActiveWeapon = pInventory.weaponEquiped[1];
         }
+    }
+
+    //Enable bullet in mag renderer after set amount of time
+    public IEnumerator ShowBulletInMag()
+    {
+
+        //Wait set amount of time before showing bullet in mag
+        yield return new WaitForSeconds(showBulletInMagDelay);
+        bulletInMagRenderer.GetComponent<SkinnedMeshRenderer>().enabled = true;
+    }
+
+    //Show light when shooting, then disable after set amount of time
+    public IEnumerator MuzzleFlashLight()
+    {
+
+        muzzleflashLight.enabled = true;
+        yield return new WaitForSeconds(lightDuration);
+        muzzleflashLight.enabled = false;
     }
 
 }

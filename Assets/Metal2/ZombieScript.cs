@@ -13,7 +13,7 @@ public class ZombieScript : MonoBehaviour
     //public BoxCollider zAttackTrigger;
 
     [Header("Zombie Settings")]
-    public int Health = 100;
+    public float Health = 100;
 
     private Collider Head;
 
@@ -21,13 +21,14 @@ public class ZombieScript : MonoBehaviour
     public Transform target;
 
     public bool ZombieIsInRange = false;
+    public bool isDead = false;
 
     
 
     // Start is called before the first frame update
     void Start()
     {
-        Head = GameObject.FindGameObjectWithTag("Head Hitbox").GetComponent<CapsuleCollider>();
+        //Head = GameObject.FindGameObjectWithTag("Head Hitbox").GetComponent<CapsuleCollider>();
         nma = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
 
@@ -40,14 +41,23 @@ public class ZombieScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ZombieIsInRange == false)
+        if (!isDead)
         {
-            anim.SetBool("ZombieIsInRange", false);
-            nma.SetDestination(target.position);
+            if (ZombieIsInRange == false)
+            {
+                anim.SetBool("ZombieIsInRange", false);
+                nma.SetDestination(target.position);
+            }
+            else
+            {
+                anim.SetBool("ZombieIsInRange", true);
+            }
         }
-        else
+
+        if(Health <= 0)
         {
-            anim.SetBool("ZombieIsInRange", true);
+            anim.enabled = false;
+            isDead = true;
         }
     }
 

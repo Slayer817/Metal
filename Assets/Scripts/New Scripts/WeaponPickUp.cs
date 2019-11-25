@@ -56,11 +56,7 @@ public class WeaponPickUp : MonoBehaviour
                             Debug.Log(canPickup);
                                                         
                         }
-
-                        else
-                        {
-                            Debug.Log("Weapon Already Equipped");
-                        }
+                        
                     }
                 }                                             
             }            

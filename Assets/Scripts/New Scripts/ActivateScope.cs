@@ -16,7 +16,7 @@ public class ActivateScope : MonoBehaviour
 
     public void enableScope()
     {
-        if (pInventory.weaponEquiped[0].gameObject.GetComponent<WeaponProperties>().WeaponType == "Burst Weapon")
+        if (pInventory.weaponEquiped[0].gameObject.GetComponent<WeaponProperties>().fireMode == "Burst")
         {
             BurstWeaponScopeGO.gameObject.SetActive(true);
         }

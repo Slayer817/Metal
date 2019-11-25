@@ -25,17 +25,17 @@ public class CrosshairScript : MonoBehaviour
 
         if (pInventory.activeWeapIs == 0)
         {
-            if (pInventory.weaponEquiped[0].gameObject.GetComponent<WeaponProperties>().WeaponType == "Burst Weapon")
+            if (pInventory.weaponEquiped[0].gameObject.GetComponent<WeaponProperties>().fireMode == "Burst")
             {
                 ARCrosshair.SetActive(true);
             }
 
-            else if (pInventory.weaponEquiped[0].gameObject.GetComponent<WeaponProperties>().WeaponType == "SMG")
+            else if (pInventory.weaponEquiped[0].gameObject.GetComponent<WeaponProperties>().fireMode == "SMG")
             {
                 SMGCrosshair.SetActive(true);
             }
 
-            else if (pInventory.weaponEquiped[0].gameObject.GetComponent<WeaponProperties>().WeaponType == "Pistol")
+            else if (pInventory.weaponEquiped[0].gameObject.GetComponent<WeaponProperties>().fireMode == "Pistol")
             {
                 PistolCrosshair.SetActive(true);
             }
@@ -44,17 +44,17 @@ public class CrosshairScript : MonoBehaviour
 
         if (pInventory.activeWeapIs == 1)
         {
-            if (pInventory.weaponEquiped[1].gameObject.GetComponent<WeaponProperties>().WeaponType == "Burst Weapon")
+            if (pInventory.weaponEquiped[1].gameObject.GetComponent<WeaponProperties>().fireMode == "Burst")
             {
                 ARCrosshair.SetActive(true);
             }
 
-            else if (pInventory.weaponEquiped[1].gameObject.GetComponent<WeaponProperties>().WeaponType == "SMG")
+            else if (pInventory.weaponEquiped[1].gameObject.GetComponent<WeaponProperties>().fireMode == "SMG")
             {
                 ARCrosshair.SetActive(true);
             }
 
-            else if (pInventory.weaponEquiped[1].gameObject.GetComponent<WeaponProperties>().WeaponType == "Pistol")
+            else if (pInventory.weaponEquiped[1].gameObject.GetComponent<WeaponProperties>().fireMode == "Pistol")
             {
                 ARCrosshair.SetActive(true);
             }

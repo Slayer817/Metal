@@ -34,6 +34,8 @@ TagManager:
   - Attachment
   - Components
   - Weapon Sounds
+  - ZombieAttackTrigger
+  - Zombie
   layers:
   - Default
   - TransparentFX

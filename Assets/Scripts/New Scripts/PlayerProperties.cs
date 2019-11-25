@@ -20,7 +20,7 @@ public class PlayerProperties : MonoBehaviour
     public Text currentAmmoText;
     public Text totalAmmoText;
 
-    
+    private bool hasFoundComponents = false;
 
     
 
@@ -31,13 +31,15 @@ public class PlayerProperties : MonoBehaviour
 
     private void Start()
     {
+       
+            //gunCamera = GameObject.FindGameObjectWithTag("Player Camera").GetComponent<Camera>();
+            currentAmmoText = GameObject.FindGameObjectWithTag("Current Ammo Text").GetComponent<Text>();
+            totalAmmoText = GameObject.FindGameObjectWithTag("Total Ammo Text").GetComponent<Text>();
 
-        //gunCamera = GameObject.FindGameObjectWithTag("Player Camera").GetComponent<Camera>();
-        currentAmmoText = GameObject.FindGameObjectWithTag("Current Ammo Text").GetComponent<Text>();
-        totalAmmoText = GameObject.FindGameObjectWithTag("Total Ammo Text").GetComponent<Text>();
-
-        pInventory = GameObject.FindGameObjectWithTag("Player Inventory").GetComponent<PlayerInventoryManager>();
-
+        if (!hasFoundComponents)
+        {
+            pInventory = GameObject.FindGameObjectWithTag("Player Inventory").GetComponent<PlayerInventoryManager>();
+        }
     }
 
     private void Update()
@@ -45,12 +47,14 @@ public class PlayerProperties : MonoBehaviour
         if (pInventory.activeWeapIs == 0)
         {
             wProperties = pInventory.weaponEquiped[0].gameObject.GetComponent<WeaponProperties>();
+            Start();
             totalAmmoText.text = wProperties.ammo.ToString();
         }
 
         else if (pInventory.activeWeapIs == 1)
         {
             wProperties = pInventory.weaponEquiped[1].gameObject.GetComponent<WeaponProperties>();
+            Start();
             totalAmmoText.text = wProperties.ammo.ToString();
         }
     }
