@@ -41,26 +41,16 @@ public class ZombieScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isDead)
-        {
-            if (ZombieIsInRange == false)
-            {
-                anim.SetBool("ZombieIsInRange", false);
-                nma.SetDestination(target.position);
-            }
-            else
-            {
-                anim.SetBool("ZombieIsInRange", true);
-            }
-        }
+        
 
         if(Health <= 0)
         {
-            anim.enabled = false;
-            isDead = true;
+            anim.speed = 0;
+            Die();
+            
         }
     }
-
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name == "Player")
@@ -82,6 +72,39 @@ public class ZombieScript : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         ZombieIsInRange = false;
+    }
+    */
+
+    void Die()
+    {
+        Destroy(gameObject, 10f);
+        GetComponent<Animator>().enabled = false;
+        setRigidbodyState(false);
+        setColliderState(true);
+    }
+
+    void setRigidbodyState(bool state)
+    {
+        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
+
+        foreach (Rigidbody rigidbody in rigidbodies)
+        {
+            rigidbody.isKinematic = state;
+        }
+
+        //GetComponent<Rigidbody>().isKinematic = !state;
+    }
+
+    void setColliderState(bool state)
+    {
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+
+        foreach (Collider collider in colliders)
+        {
+            collider.enabled = state;
+        }
+
+        //GetComponent<Collider>().enabled = !state;
     }
 
 }

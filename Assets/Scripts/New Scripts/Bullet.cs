@@ -47,11 +47,11 @@ public class Bullet : MonoBehaviour
 
         for (int i = 0; i < hits.Length; i++)
         {
-            Debug.Log(hits[i].collider.gameObject.name);
+            //Debug.Log(hits[i].collider.gameObject.name);
 
             if(hits[i].collider.gameObject.tag == "Zombie")
             {
-                zScript = hits[i].collider.gameObject.GetComponent<ZombieScript>();
+                zScript = hits[i].collider.gameObject.GetComponentInParent<ZombieScript>();
                 Debug.Log(damage);
                 zScript.Health -= damage;
                 Debug.Log("Detector Works");
@@ -93,5 +93,7 @@ public class Bullet : MonoBehaviour
             damage = wProperties.damage;
         }
     }
+
+    
 
 }
