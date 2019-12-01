@@ -138,7 +138,7 @@
                     "name": "",
                     "id": "0733669c-6463-40bc-a77c-922ce5eae242",
                     "path": "<Gamepad>/rightTrigger",
-                    "interactions": "Hold(duration=0.1,pressPoint=0.1)",
+                    "interactions": "Hold(duration=0.01,pressPoint=0.1)",
                     "processors": "",
                     "groups": "",
                     "action": "Fire",

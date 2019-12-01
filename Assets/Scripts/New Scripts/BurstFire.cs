@@ -9,6 +9,7 @@ public class BurstFire : MonoBehaviour
     public PlayerInventoryManager pInventory;
     public WeaponProperties wProperties;
     public GeneralWeapProperties gwProperties;
+    public ControllerScript cScript;
 
     public Animator anim;
     
@@ -29,6 +30,8 @@ public class BurstFire : MonoBehaviour
             pInventory = GameObject.FindGameObjectWithTag("Player Inventory").GetComponent<PlayerInventoryManager>();
             wProperties = GameObject.FindGameObjectWithTag("Weapon").GetComponent<WeaponProperties>();
             gwProperties = GameObject.FindGameObjectWithTag("Player").GetComponent<GeneralWeapProperties>();
+
+            cScript = GetComponent<ControllerScript>();
 
             hasFoundComponents = true;
             
@@ -103,7 +106,12 @@ public class BurstFire : MonoBehaviour
             StartCoroutine(Burst());
             hasButtonDown = true;
         }
-        
+        else if(cScript.isShooting && !cScript.hasRTriggerDown && !ThisisShooting)
+        {
+            Debug.Log("Controller Burst Fire");
+            StartCoroutine(Burst());
+        }
+
 
         if (pInventory.activeWeapIs == 0)
         {

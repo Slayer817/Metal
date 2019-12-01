@@ -9,6 +9,7 @@ public class SingleFire : MonoBehaviour
     public PlayerInventoryManager pInventory;
     public WeaponProperties wProperties;
     public GeneralWeapProperties gwProperties;
+    public ControllerScript cScript;
 
     public Animator anim;
 
@@ -27,6 +28,7 @@ public class SingleFire : MonoBehaviour
             pInventory = GameObject.FindGameObjectWithTag("Player Inventory").GetComponent<PlayerInventoryManager>();
             wProperties = GameObject.FindGameObjectWithTag("Weapon").GetComponent<WeaponProperties>();
             gwProperties = GameObject.FindGameObjectWithTag("Player").GetComponent<GeneralWeapProperties>();
+            cScript = GetComponent<ControllerScript>();
 
             hasFoundComponents = true;
 
@@ -111,6 +113,11 @@ public class SingleFire : MonoBehaviour
         {
             StartCoroutine(SingleFireVoid());
             hasButtonDown = true;
+        }
+        else if (cScript.isShooting && !cScript.hasRTriggerDown && !ThisisShooting)
+        {
+            Debug.Log("Controller Burst Fire");
+            StartCoroutine(SingleFireVoid());
         }
 
 

@@ -18,8 +18,7 @@ public class ControllerScript : MonoBehaviour
 
     public bool InteractButtonPressed = false;
     public bool SwitchWeaponsButtonPressed = false;
-    public bool thisHasSecWeap;
-    public int thisActiveWeapIs = 0;
+    public bool hasRTriggerDown = false;
 
     Vector2 move;
     Vector2 rotate;
@@ -110,18 +109,21 @@ public class ControllerScript : MonoBehaviour
 
     void Fire()
     {
-
         if (!wProperties.outOfAmmo && !isReloading && !isShooting && !isInspecting /*&& !isRunning && burstEnabler*/)
         {
+            Debug.Log("Right Trigger pushed");
             isShooting = true;
+            StartCoroutine(FiringCountdown());
+            
         }
         
     }
 
     void CancelFire()
     {
-        Debug.Log("Player INTERACTED with controller");
+        Debug.Log("Right Trigger released");
         isShooting = false;
+        hasRTriggerDown = false;
     }
 
     void ThrowGrenade()
@@ -185,7 +187,11 @@ public class ControllerScript : MonoBehaviour
         SwitchWeaponsButtonPressed = false;
     }
 
-
+    private IEnumerator FiringCountdown()
+    {
+        yield return new WaitForEndOfFrame();
+        hasRTriggerDown = true;
+    }
 
     private IEnumerator GrenadeSpawnDelay()
     {
