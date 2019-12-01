@@ -9,6 +9,7 @@ public class FullyAutomaticFire : MonoBehaviour
     public PlayerInventoryManager pInventory;
     public WeaponProperties wProperties;
     public GeneralWeapProperties gwProperties;
+    public ControllerScript cScript;
 
     public Animator anim;
     
@@ -27,8 +28,11 @@ public class FullyAutomaticFire : MonoBehaviour
             pInventory = GameObject.FindGameObjectWithTag("Player Inventory").GetComponent<PlayerInventoryManager>();
             wProperties = GameObject.FindGameObjectWithTag("Weapon").GetComponent<WeaponProperties>();
             gwProperties = GameObject.FindGameObjectWithTag("Player").GetComponent<GeneralWeapProperties>();
+            cScript = GetComponent<ControllerScript>();
 
             hasFoundComponents = true;
+
+
 
         }
 
@@ -36,6 +40,7 @@ public class FullyAutomaticFire : MonoBehaviour
 
         if (ThisisShooting && wProperties.isFullyAutomatic)
         {
+            
 
             wProperties.currentAmmo -= 1;
 
@@ -87,6 +92,9 @@ public class FullyAutomaticFire : MonoBehaviour
             //Spawn casing prefab at spawnpoint
             Instantiate(gwProperties.bigCasingPrefab, gwProperties.casingSpawnPoint.transform.position, gwProperties.casingSpawnPoint.transform.rotation);
 
+            wProperties.mainAudioSource.clip = wProperties.Fire;
+            wProperties.mainAudioSource.Play();
+
         }
 
     }
@@ -96,9 +104,12 @@ public class FullyAutomaticFire : MonoBehaviour
 
         nextFireInterval = wProperties.timeBetweenFABullets;
 
-        if (pController.isShooting && !ThisisShooting)
-        {
-            StartCoroutine(Fire());
+        if(!ThisisShooting)
+        { 
+            if (pController.isShooting || cScript.isShooting)
+            {
+                StartCoroutine(Fire());
+            }
         }
 
 
@@ -128,7 +139,8 @@ public class FullyAutomaticFire : MonoBehaviour
         ThisisShooting = true;
 
         Start();
-
+wProperties.mainAudioSource.clip = wProperties.Fire;
+            wProperties.mainAudioSource.Play();
         yield return new WaitForSeconds(nextFireInterval);
         ThisisShooting = false;
                

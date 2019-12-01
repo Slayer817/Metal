@@ -7,7 +7,7 @@ public class ZombieScript : MonoBehaviour
 {
 
     NavMeshAgent nma;
-    Animator anim;
+    public Animator anim;
 
     //public SphereCollider ztpCollider;
     //public BoxCollider zAttackTrigger;
@@ -32,6 +32,7 @@ public class ZombieScript : MonoBehaviour
         nma = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
 
+
         //ztpCollider = GameObject.FindGameObjectWithTag("ZombieToPlayerCollider").GetComponent<SphereCollider>();
         //zAttackTrigger = GetComponent<BoxCollider>();
         
@@ -41,11 +42,15 @@ public class ZombieScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Health > 0)
+        {
+            nma.SetDestination(target.position);
+        }
 
         if(Health <= 0)
         {
             anim.speed = 0;
+            
             Die();
             
         }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 96448838451407516}
   - component: {fileID: 114243545424532484}
   - component: {fileID: 6751254836756793700}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Bullet_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,6 +209,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bSpeed: 5
+  bs: {fileID: 0}
+  collision: {fileID: 0}
 --- !u!1 &1231345400216816
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +222,7 @@ GameObject:
   - component: {fileID: 4397278263413714}
   - component: {fileID: 198974215115052992}
   - component: {fileID: 199619784623798600}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5031,7 +5033,7 @@ GameObject:
   - component: {fileID: 4931387532149536}
   - component: {fileID: 33863200561730922}
   - component: {fileID: 23107287041144438}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5108,7 +5110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4177223287807308}
   - component: {fileID: 108073886206650742}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}

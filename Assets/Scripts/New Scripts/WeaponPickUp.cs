@@ -10,6 +10,7 @@ public class WeaponPickUp : MonoBehaviour
     public PlayerController pController;
     public SFXManager sfxManager;
     public Text pickupText;
+    public ControllerScript cScript;
     
     public GameObject pickupWeap; // Stores weapon in order to use Update void without "other"
     public string weaponName;
@@ -28,6 +29,8 @@ public class WeaponPickUp : MonoBehaviour
         pInventory = GameObject.FindGameObjectWithTag("Player Inventory").GetComponent<PlayerInventoryManager>();
         pController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         pickupText = GameObject.FindGameObjectWithTag("Player Informer").GetComponent<Text>();
+
+        cScript = GameObject.FindGameObjectWithTag("Player").GetComponent<ControllerScript>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -75,7 +78,7 @@ public class WeaponPickUp : MonoBehaviour
     {
         if (isOnTrigger == true && canPickup == true)
         {
-            if (Input.GetKeyDown(pickup))
+            if (Input.GetKeyDown(pickup) || cScript.InteractButtonPressed)
             {                 
 
                 if (pInventory.weaponEquiped[1] == null) // Looks for Secondary Weapon

@@ -7,6 +7,7 @@ public class PlayerInventoryManager : MonoBehaviour
     [Header("Other Scripts")]
     public SFXManager sfxManager;
     public CrosshairScript crosshairScript;
+    public ControllerScript cScript;
 
     [Space(20)]
     [Header("Data")]
@@ -32,6 +33,8 @@ public class PlayerInventoryManager : MonoBehaviour
         FindAllWeaponsInPlayer();
         EquipStartingWeapon();
 
+        cScript = GameObject.FindGameObjectWithTag("Player").GetComponent<ControllerScript>();
+
         sfxManager.mainAudioSource.clip = sfxManager.cockingClip1;
         sfxManager.mainAudioSource.Play();
 
@@ -39,37 +42,42 @@ public class PlayerInventoryManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") > 0 || Input.GetAxis("Mouse ScrollWheel") < 0)
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 || Input.GetAxis("Mouse ScrollWheel") < 0 || cScript.SwitchWeaponsButtonPressed)
         {
-            if (hasSecWeap == true)
-            {
-                if (weaponEquiped[0].gameObject.activeSelf)
-                {
-                    weaponEquiped[1].gameObject.SetActive(true);
-                    weaponEquiped[0].gameObject.SetActive(false);
-
-                    sfxManager.mainAudioSource.clip = sfxManager.cockingClip1;
-                    sfxManager.mainAudioSource.Play();
-
-                    activeWeapIs = 1;
-                }
-
-                else if (weaponEquiped[1].gameObject.activeSelf)
-                {
-                    weaponEquiped[1].gameObject.SetActive(false);
-                    weaponEquiped[0].gameObject.SetActive(true);
-
-                    sfxManager.mainAudioSource.clip = sfxManager.cockingClip2;
-                    sfxManager.mainAudioSource.Play();
-
-                    activeWeapIs = 0;
-                }
-            }
+            SwapWeapons();
 
         }
 
 
 
+    }
+
+    public void SwapWeapons()
+    {
+        if (hasSecWeap == true)
+        {
+            if (weaponEquiped[0].gameObject.activeSelf)
+            {
+                weaponEquiped[1].gameObject.SetActive(true);
+                weaponEquiped[0].gameObject.SetActive(false);
+
+                sfxManager.mainAudioSource.clip = sfxManager.cockingClip1;
+                sfxManager.mainAudioSource.Play();
+
+                activeWeapIs = 1;
+            }
+
+            else if (weaponEquiped[1].gameObject.activeSelf)
+            {
+                weaponEquiped[1].gameObject.SetActive(false);
+                weaponEquiped[0].gameObject.SetActive(true);
+
+                sfxManager.mainAudioSource.clip = sfxManager.cockingClip2;
+                sfxManager.mainAudioSource.Play();
+
+                activeWeapIs = 0;
+            }
+        }
     }
 
     void FindComponents()

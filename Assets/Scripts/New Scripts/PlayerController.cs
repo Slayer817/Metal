@@ -10,8 +10,8 @@ public class PlayerController : MonoBehaviour
     public WeaponSounds weapSounds;
     public PlayerProperties playerProperties;
     public PlayerInventoryManager pInventory;
-    public GeneralWeapProperties generalWeapProp;
-    public WeaponProperties weapProperties;
+    public GeneralWeapProperties gwProperties;
+    public WeaponProperties wProperties;
     public Animator anim;
     public FullyAutomaticFire fullyAutomaticFire;
     public BurstFire burstFire;
@@ -48,8 +48,8 @@ public class PlayerController : MonoBehaviour
             pInventory = GameObject.FindGameObjectWithTag("Player Inventory").GetComponent<PlayerInventoryManager>();
 
             playerProperties = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerProperties>();
-            generalWeapProp = GameObject.FindGameObjectWithTag("Player").GetComponent<GeneralWeapProperties>();
-            weapProperties = GameObject.FindGameObjectWithTag("Weapon").GetComponent<WeaponProperties>();
+            gwProperties = GameObject.FindGameObjectWithTag("Player").GetComponent<GeneralWeapProperties>();
+            wProperties = GameObject.FindGameObjectWithTag("Weapon").GetComponent<WeaponProperties>();
 
             fullyAutomaticFire = GetComponent<FullyAutomaticFire>();
             burstFire = GetComponent<BurstFire>();
@@ -65,20 +65,20 @@ public class PlayerController : MonoBehaviour
     {
         if(pInventory.activeWeapIs == 0)
         {
-            weapProperties = pInventory.weaponEquiped[0].gameObject.GetComponent<WeaponProperties>();
+            wProperties = pInventory.weaponEquiped[0].gameObject.GetComponent<WeaponProperties>();
             anim = pInventory.weaponEquiped[0].gameObject.GetComponent<Animator>();
         }
 
         else if (pInventory.activeWeapIs == 1)
         {
-            weapProperties = pInventory.weaponEquiped[1].gameObject.GetComponent<WeaponProperties>();
+            wProperties = pInventory.weaponEquiped[1].gameObject.GetComponent<WeaponProperties>();
             anim = pInventory.weaponEquiped[1].gameObject.GetComponent<Animator>();
         }
 
         // Firing
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        if (Input.GetMouseButton(0) && !weapProperties.outOfAmmo && !isReloading && !isShooting && !isInspecting /*&& !isRunning && burstEnabler*/)
+        if (Input.GetMouseButton(0) && !wProperties.outOfAmmo && !isReloading && !isShooting && !isInspecting /*&& !isRunning && burstEnabler*/)
         { 
             isShooting = true;
         }
@@ -124,14 +124,14 @@ public class PlayerController : MonoBehaviour
         //If randomize muzzleflash is true, genereate random int values
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         
-        if (generalWeapProp.randomMuzzleflash == true)
+        if (gwProperties.randomMuzzleflash == true)
         {
-            generalWeapProp.randomMuzzleflashValue = Random.Range(generalWeapProp.minRandomValue, generalWeapProp.maxRandomValue);
+            gwProperties.randomMuzzleflashValue = Random.Range(gwProperties.minRandomValue, gwProperties.maxRandomValue);
         }
 
 
         //Set current ammo text from ammo int
-        playerProperties.currentAmmoText.text = weapProperties.currentAmmo.ToString();
+        playerProperties.currentAmmoText.text = wProperties.currentAmmo.ToString();
 
         //Continosuly check which animation 
         //is currently playing
@@ -157,12 +157,12 @@ public class PlayerController : MonoBehaviour
         }
 
         //If out of ammo
-        if (weapProperties.currentAmmo == 0)
+        if (wProperties.currentAmmo == 0)
         {
             //Show out of ammo text
             //currentWeaponText.text = "OUT OF AMMO";
             //Toggle bool
-            weapProperties.outOfAmmo = true;
+            wProperties.outOfAmmo = true;
             //Auto reload if true
             if (!isReloading)
             {
@@ -173,7 +173,7 @@ public class PlayerController : MonoBehaviour
         {
 
             //Toggle bool
-            weapProperties.outOfAmmo = false;
+            wProperties.outOfAmmo = false;
             //anim.SetBool ("Out Of Ammo", false);
         }
         
@@ -243,12 +243,14 @@ public class PlayerController : MonoBehaviour
     }
 
     //Reload
-    private void Reload()
+    public void Reload()
     {
-        if (weapProperties.usesMags)
+        if (wProperties.usesMags)
         {
+            wProperties.mainAudioSource.clip = wProperties.Reload_1;
+            wProperties.mainAudioSource.Play();
 
-            if (weapProperties.outOfAmmo == true)
+            if (wProperties.outOfAmmo == true)
             {
                 //Play diff anim if out of ammo
                 anim.Play("Reload Out Of Ammo", 0, 0f);
@@ -258,12 +260,12 @@ public class PlayerController : MonoBehaviour
 
                 //If out of ammo, hide the bullet renderer in the mag
                 //Do not show if bullet renderer is not assigned in inspector
-                if (generalWeapProp.bulletInMagRenderer != null)
+                if (gwProperties.bulletInMagRenderer != null)
                 {
-                    generalWeapProp.bulletInMagRenderer.GetComponent
+                    gwProperties.bulletInMagRenderer.GetComponent
                     <SkinnedMeshRenderer>().enabled = false;
                     //Start show bullet delay
-                    StartCoroutine(generalWeapProp.ShowBulletInMag());
+                    StartCoroutine(gwProperties.ShowBulletInMag());
                 }
             }
             else
@@ -276,20 +278,20 @@ public class PlayerController : MonoBehaviour
 
                 //If reloading when ammo left, show bullet in mag
                 //Do not show if bullet renderer is not assigned in inspector
-                if (generalWeapProp.bulletInMagRenderer != null)
+                if (gwProperties.bulletInMagRenderer != null)
                 {
-                    generalWeapProp.bulletInMagRenderer.GetComponent
+                    gwProperties.bulletInMagRenderer.GetComponent
                     <SkinnedMeshRenderer>().enabled = true;
                 }
             }
             //Restore ammo when reloading
-            weapProperties.currentAmmo = weapProperties.ammo;
-            weapProperties.outOfAmmo = false;
+            wProperties.currentAmmo = wProperties.ammo;
+            wProperties.outOfAmmo = false;
         }
 
-        if(weapProperties.usesShells)
+        if(wProperties.usesShells)
         {
-            if (weapProperties.outOfAmmo == true)
+            if (wProperties.outOfAmmo == true)
             {
                 //Play diff anim if out of ammo
                 anim.Play("Reload Open", 0, 0f);
@@ -303,15 +305,15 @@ public class PlayerController : MonoBehaviour
                 
             }
             //Restore ammo when reloading
-            weapProperties.currentAmmo = weapProperties.ammo;
-            weapProperties.outOfAmmo = false;
+            wProperties.currentAmmo = wProperties.ammo;
+            wProperties.outOfAmmo = false;
         }
     }
 
     //Check current animation playing
     private void AnimationCheck()
     {
-        if (weapProperties.usesMags)
+        if (wProperties.usesMags)
         {
             //Check if reloading
             //Check both animations
@@ -326,7 +328,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(weapProperties.usesShells)
+        if(wProperties.usesShells)
         {
             //Check if reloading
             //Check both animations
@@ -374,11 +376,11 @@ public class PlayerController : MonoBehaviour
     {
 
         //Wait for set amount of time before spawning grenade
-        yield return new WaitForSeconds(generalWeapProp.grenadeSpawnDelay);
+        yield return new WaitForSeconds(gwProperties.grenadeSpawnDelay);
         //Spawn grenade prefab at spawnpoint
-        Instantiate(generalWeapProp.grenadePrefab,
-            generalWeapProp.grenadeSpawnPoint.transform.position,
-            generalWeapProp.grenadeSpawnPoint.transform.rotation);
+        Instantiate(gwProperties.grenadePrefab,
+            gwProperties.grenadeSpawnPoint.transform.position,
+            gwProperties.grenadeSpawnPoint.transform.rotation);
     }
 
     private IEnumerator AutoReload()
@@ -386,53 +388,53 @@ public class PlayerController : MonoBehaviour
         //Wait set amount of time
         yield return new WaitForSeconds(autoReloadDelay);
 
-        if (weapProperties.usesMags)
+        if (wProperties.usesMags)
         {
 
-            if (weapProperties.outOfAmmo == true)
+            if (wProperties.outOfAmmo == true)
             {
                 //Play diff anim if out of ammo
                 anim.Play("Reload Out Of Ammo", 0, 0f);
 
-                sfxManager.mainAudioSource.clip = weapSounds.reloadSoundOutOfAmmo;
-                sfxManager.mainAudioSource.Play();
+                wProperties.mainAudioSource.clip = wProperties.Reload_2;
+                wProperties.mainAudioSource.Play();
 
                 //If out of ammo, hide the bullet renderer in the mag
                 //Do not show if bullet renderer is not assigned in inspector
-                if (generalWeapProp.bulletInMagRenderer != null)
+                if (gwProperties.bulletInMagRenderer != null)
                 {
-                    generalWeapProp.bulletInMagRenderer.GetComponent
+                    gwProperties.bulletInMagRenderer.GetComponent
                     <SkinnedMeshRenderer>().enabled = false;
                     //Start show bullet delay
-                    StartCoroutine(generalWeapProp.ShowBulletInMag());
+                    StartCoroutine(gwProperties.ShowBulletInMag());
                 }
             }
             //Restore ammo when reloading
-            weapProperties.currentAmmo = weapProperties.ammo;
-            weapProperties.outOfAmmo = false;
+            wProperties.currentAmmo = wProperties.ammo;
+            wProperties.outOfAmmo = false;
         }
 
-        if(weapProperties.usesShells)
+        if(wProperties.usesShells)
         {
-            if (weapProperties.outOfAmmo == true)
+            if (wProperties.outOfAmmo == true)
             {
                 //Play diff anim if out of ammo
                 anim.Play("Reload Open", 0, 0f);
 
-                while(weapProperties.currentAmmo < weapProperties.ammo)
+                while(wProperties.currentAmmo < wProperties.ammo)
                 {
                     anim.Play("Insert Shell", 0, 0f);
-                    weapProperties.currentAmmo += 1;
-                    Debug.Log(weapProperties.currentAmmo);
+                    wProperties.currentAmmo += 1;
+                    Debug.Log(wProperties.currentAmmo);
                 }
 
                 anim.Play("Reload Close", 0, 0f);
             }
         }
             
-        if(weapProperties.usesSingleAmmo)
+        if(wProperties.usesSingleAmmo)
         {
-            if (weapProperties.outOfAmmo == true)
+            if (wProperties.outOfAmmo == true)
             {
                 //Play diff anim if out of ammo
                 anim.Play("Reload", 0, 0f);
@@ -440,8 +442,8 @@ public class PlayerController : MonoBehaviour
 
             }
             //Restore ammo when reloading
-            weapProperties.currentAmmo = weapProperties.ammo;
-            weapProperties.outOfAmmo = false;
+            wProperties.currentAmmo = wProperties.ammo;
+            wProperties.outOfAmmo = false;
         }
         
     }
@@ -453,17 +455,17 @@ public class PlayerController : MonoBehaviour
     {
 
         //Wait set amount of time before showing bullet in mag
-        yield return new WaitForSeconds(generalWeapProp.showBulletInMagDelay);
-        generalWeapProp.bulletInMagRenderer.GetComponent<SkinnedMeshRenderer>().enabled = true;
+        yield return new WaitForSeconds(gwProperties.showBulletInMagDelay);
+        gwProperties.bulletInMagRenderer.GetComponent<SkinnedMeshRenderer>().enabled = true;
     }
 
     //Show light when shooting, then disable after set amount of time
     private IEnumerator MuzzleFlashLight()
     {
 
-        generalWeapProp.muzzleflashLight.enabled = true;
-        yield return new WaitForSeconds(generalWeapProp.lightDuration);
-        generalWeapProp.muzzleflashLight.enabled = false;
+        gwProperties.muzzleflashLight.enabled = true;
+        yield return new WaitForSeconds(gwProperties.lightDuration);
+        gwProperties.muzzleflashLight.enabled = false;
     }
     */
     

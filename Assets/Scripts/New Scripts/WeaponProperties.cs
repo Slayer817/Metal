@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class WeaponProperties : MonoBehaviour
 {
+    [Header("Weapon Info")]
     public string weaponName;
     public string fireMode;
     public int storedWeaponNumber;
-
     public int damage = 50;
     public int bulletSpeed = 250;
+
+    [Header("Sounds")]
+    public AudioClip Fire;
+    public AudioClip Reload_1;
+    public AudioClip Reload_2;
+
+    [Header("Components")]
+    public AudioSource mainAudioSource;
 
     
 
@@ -37,5 +45,19 @@ public class WeaponProperties : MonoBehaviour
     [Header("What kind of single ammo? (If its bullets, leave unchecked)")]
     public bool usesGrenades;
     public bool usesRockets;
+
+    private bool hasFoundComponents = false;
+
+    private void Start()
+    {
+     
+        if(hasFoundComponents == false)
+        {
+            mainAudioSource = GetComponent<AudioSource>();
+
+            hasFoundComponents = true;
+        }
+        
+    }
 
 }
